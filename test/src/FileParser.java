@@ -8,6 +8,7 @@ public class FileParser {
     private String outputfile;
     private int digitosPalabra;
     private ArrayList<String> events;
+    private TreeSet<String> palabras;
     private HashMap<String, Integer> frec;
     private HashMap<String, Double> prob;
     private HashMap<String, Double> cantInfo;
@@ -50,12 +51,13 @@ public class FileParser {
         for (String str : this.events) {
             this.frec.put(str, this.frec.getOrDefault(str, 0) + 1);
         }
+        this.palabras = new TreeSet<String>(this.frec.keySet());
         this.prob = new HashMap<>();
-        for (String str : this.frec.keySet()) {
+        for (String str : this.palabras) {
             this.prob.put(str, (double )this.frec.get(str) / this.events.size());
         }
         this.cantInfo = new HashMap<>();
-        for (String str : this.frec.keySet()) {
+        for (String str : this.palabras) {
             this.cantInfo.put(str, cantidadDeInformacion(this.prob.get(str)));
         }
     }
@@ -64,7 +66,7 @@ public class FileParser {
     public void printFrecuencies() {
         System.out.println("Frecuencias: ");
 
-        for (String s : new TreeSet<>(this.frec.keySet())) {
+        for (String s : this.palabras) {
             System.out.println("[" + s + "] = " + this.frec.get(s));
         }
         System.out.println();
@@ -74,7 +76,7 @@ public class FileParser {
     public void printCantidadDeInfo() {
         System.out.println("Cantidad de info: ");
 
-        for (String s : new TreeSet<>(this.cantInfo.keySet())) {
+        for (String s : this.palabras) {
             System.out.println("I(" + s + ") = " + this.cantInfo.get(s));
         }
         System.out.println();
@@ -85,7 +87,7 @@ public class FileParser {
         double total = 0;
         System.out.println("Probabilidades: ");
 
-        for (String s : new TreeSet<>(this.cantInfo.keySet())) {
+        for (String s : this.palabras) {
             System.out.println("P(" + s + ") = " + this.prob.get(s));
             total += this.prob.get(s);
         }
@@ -101,7 +103,7 @@ public class FileParser {
 
     public double entropia() {
         double h = 0;
-        for (String s : this.prob.keySet()) {
+        for (String s : this.palabras) {
             h += this.prob.get(s) * this.cantInfo.get(s);
         }
         return h;
