@@ -64,7 +64,7 @@ public class FileParser {
     public void printFrecuencies() {
         System.out.println("Frecuencias: ");
 
-        for (String s : this.frec.keySet()) {
+        for (String s : new TreeSet<>(this.frec.keySet())) {
             System.out.println("[" + s + "] = " + this.frec.get(s));
         }
         System.out.println();
@@ -74,7 +74,7 @@ public class FileParser {
     public void printCantidadDeInfo() {
         System.out.println("Cantidad de info: ");
 
-        for (String s : this.cantInfo.keySet()) {
+        for (String s : new TreeSet<>(this.cantInfo.keySet())) {
             System.out.println("I(" + s + ") = " + this.cantInfo.get(s));
         }
         System.out.println();
@@ -85,7 +85,7 @@ public class FileParser {
         double total = 0;
         System.out.println("Probabilidades: ");
 
-        for (String s : this.cantInfo.keySet()) {
+        for (String s : new TreeSet<>(this.cantInfo.keySet())) {
             System.out.println("P(" + s + ") = " + this.prob.get(s));
             total += this.prob.get(s);
         }
