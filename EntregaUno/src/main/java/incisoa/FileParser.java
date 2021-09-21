@@ -11,8 +11,7 @@ public class FileParser {
     private TreeSet<String> palabras;
 
     public void parseFile(String inputfile, int digitosPalabra) throws IOException {
-        String path = inputfile;
-        Reader reader = new FileReader(path);
+        Reader reader = new FileReader(inputfile);
         char[] buffer = new char[digitosPalabra];
         String word;
         int total;
@@ -24,7 +23,6 @@ public class FileParser {
         reader.close();
 
         this.palabras = new TreeSet<>(this.frec.keySet()); // para imprimir ordenado
-
         total = this.frec.values().stream().mapToInt(Integer::intValue).sum();
 
         for (String str : this.palabras) {
@@ -50,17 +48,12 @@ public class FileParser {
     }
 
     public void printProbabilidad() {
-        double total = 0;
-
         System.out.println("Probabilidades: ");
         for (String s : this.palabras) {
             System.out.println("P(" + s + ") = " + this.prob.get(s));
-            total += this.prob.get(s);
         }
-        System.out.println("sum = " + total);
+        System.out.println("suma = " + this.prob.values().stream().mapToDouble(Double::doubleValue).sum());
         System.out.println();
-        // System.out.println("sum = " +
-//         this.prob.values().stream().mapToDouble(Double::doubleValue).sum();
     }
 
     private double cantidadDeInformacion(double prob) {
@@ -77,19 +70,18 @@ public class FileParser {
 
     public void writeToTxt(String outputfile) throws IOException {
         PrintStream stdout = System.out;
-        String path = outputfile;
-        System.setOut(new PrintStream(path));
+        System.setOut(new PrintStream(outputfile));
 
         this.printFrecuencies();
         this.printProbabilidad();
         this.printCantidadDeInfo();
+        System.out.println("Entropia:");
         System.out.println("H(S) = " + this.entropia());
         System.setOut(stdout);
     }
 
     public void writeToCsv(String outputfile) throws IOException {
-        String path = outputfile;
-        Writer file = new FileWriter(path);
+        Writer file = new FileWriter(outputfile);
 
         file.write(String.join(",", "Palabras", "Frecuencia", "Probabilidad", "Cant. Informacion", "\n"));
         for (String key : this.palabras) {
