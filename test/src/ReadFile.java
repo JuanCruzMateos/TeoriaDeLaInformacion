@@ -1,12 +1,13 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
+
+// import java.io.BufferedReader;
+// import java.io.File;
+// import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
+// import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Scanner;
+// import java.util.Scanner;
 import java.io.Reader;
 
 public class ReadFile {
@@ -36,7 +37,6 @@ public class ReadFile {
         // }
         // file.close();
 
-        // -----------------------------------------------------------------
         Reader reader = new FileReader(filename);
         char[] buffer = new char[digitos];
         while (reader.read(buffer) != -1) {
@@ -49,11 +49,6 @@ public class ReadFile {
         for (String key : frec.keySet()) {
             System.out.println(key + ": " + frec.get(key));
         }
-        // -----------------------------------------------------------------
-
-    }
-
-    public static void gaussSeidel(double[][] mat, double[] b, int n, int maxIter, int[] x, double err) {
 
     }
 

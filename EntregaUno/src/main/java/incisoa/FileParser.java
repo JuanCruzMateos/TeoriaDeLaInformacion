@@ -91,4 +91,11 @@ public class FileParser {
         file.write(String.join(",", "Entropia", Double.toString(this.entropia())));
         file.close();
     }
+
+    public void clearAll() {
+        this.palabras.clear();
+        this.prob.clear();
+        this.frec.clear();
+        this.cantInfo.clear();
+    }
 }
