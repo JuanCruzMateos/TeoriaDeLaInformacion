@@ -23,7 +23,6 @@ public class FileParser {
         FileReader fileReader = null;
         BufferedReader bufferedReader = null;
         Scanner scan = null;
-        StringBuilder sb = new StringBuilder();
         String regex;
 
         file = new File(this.inputfile);
@@ -31,13 +30,7 @@ public class FileParser {
         bufferedReader = new BufferedReader(fileReader);
         scan = new Scanner(bufferedReader);
 
-        sb.append("(?<=\\G");
-        for (int i = 0; i < this.digitosPalabra; i++) {
-            sb.append(".");
-        }
-        sb.append(")");
-        regex = sb.toString();
-
+        regex = "(?<=\\G.{" + String.valueOf(this.digitosPalabra) + "})";
         String[] arr = scan.nextLine().split(regex);
 
         scan.close();
@@ -88,6 +81,8 @@ public class FileParser {
         }
         System.out.println("sum = " + total);
         System.out.println();
+        // System.out.println("sum = " +
+        // this.prob.values().stream().mapToDouble(Double::doubleValue).sum());
     }
 
     private double cantidadDeInformacion(double prob) {
