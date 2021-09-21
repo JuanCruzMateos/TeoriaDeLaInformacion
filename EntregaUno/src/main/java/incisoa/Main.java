@@ -13,8 +13,8 @@ public class Main {
 //            fileParser.printProbabilidad();
 //            fileParser.printCantidadDeInfo();
 //            System.out.println("H(S) = " + fileParser.entropia());
-                fileParser.writeToTxt("src/results/resultos" + i + ".txt");
-                fileParser.writeToCsv("src/results/resultos" + i + ".csv");
+                fileParser.writeToTxt("src/results/resultados" + i + "digitos.txt");
+                fileParser.writeToCsv("src/results/resultados" + i + "digitos.csv");
                 fileParser.clearAll();
             }
         } catch (IOException e) {
