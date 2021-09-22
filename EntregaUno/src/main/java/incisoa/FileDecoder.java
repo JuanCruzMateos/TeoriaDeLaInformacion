@@ -1,28 +1,21 @@
 package incisoa;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
 
 public class FileDecoder {
     private final HashMap<String, Integer> frec = new HashMap<>();
     private final HashMap<String, Double> prob = new HashMap<>();
-    private final HashMap<String, Double> cantInfo = new HashMap<>();
+    private final HashMap<String, Double> info = new HashMap<>();
     private TreeSet<String> palabras;
-
-    public static void main(String[] args) throws IOException {
-        FileDecoder fd = new FileDecoder();
-
-        fd.probCondicionales("src/resources/anexo1-grupo5.txt");
-    }
 
     public void parseFile(String inputfile, int digitosPalabra) throws IOException {
         Reader reader = new FileReader(inputfile);
         char[] buffer = new char[digitosPalabra];
         String word;
-        int total;
         double prob;
+        int total;
 
         while (reader.read(buffer) != -1) {
             word = new String(buffer);
@@ -36,7 +29,7 @@ public class FileDecoder {
         for (String str : this.palabras) {
             prob = (double) this.frec.get(str) / total;
             this.prob.put(str, prob);
-            this.cantInfo.put(str, cantidadDeInformacion(prob));
+            this.info.put(str, cantidadDeInformacion(prob));
         }
     }
 
@@ -52,7 +45,7 @@ public class FileDecoder {
     public void printCantidadDeInfo() {
         System.out.println("Cantidad de info: ");
         for (String s : this.palabras) {
-            System.out.println("I(" + s + ") = " + this.cantInfo.get(s));
+            System.out.println("I(" + s + ") = " + this.info.get(s));
         }
         System.out.println();
     }
@@ -73,7 +66,7 @@ public class FileDecoder {
     public double entropia() {
         double h = 0;
         for (String s : this.palabras) {
-            h += this.prob.get(s) * this.cantInfo.get(s);
+            h += this.prob.get(s) * this.info.get(s);
         }
         return h;
     }
@@ -98,7 +91,7 @@ public class FileDecoder {
         file.write(String.join(",", "Palabras", "Frecuencia", "Probabilidad", "Cant. Informacion", "\n"));
         for (String key : this.palabras) {
             file.write(String.join(",", key, Integer.toString(this.frec.get(key)), Double.toString(this.prob.get(key)),
-                    Double.toString(this.cantInfo.get(key)), "\n"));
+                    Double.toString(this.info.get(key)), "\n"));
         }
         file.write(String.join(",", " ", Integer.toString(total), Double.toString(suma), " \n"));
         file.write(String.join(",", "Entropia H(S)", Double.toString(this.entropia()), "\n"));
@@ -109,56 +102,6 @@ public class FileDecoder {
         this.palabras.clear();
         this.prob.clear();
         this.frec.clear();
-        this.cantInfo.clear();
-    }
-
-    private int toDec(int bin) {
-        int dec = 0, i = 1;
-
-        do {
-            dec += (bin % 10) * i;
-            i *= 2;
-            bin = bin / 10;
-        } while (bin != 0);
-        return dec;
-    }
-
-    public void probCondicionales(String inputfile) throws IOException {
-        double[][] probs = new double[4][4];
-        Reader reader = new FileReader(inputfile);
-        char[] buffer = new char[2];
-        int ant, act;
-
-        if (reader.read(buffer) == -1) {
-            throw new IOException("Eof");
-        }
-        ant = this.toDec(Integer.parseInt(new String(buffer)));
-        while (reader.read(buffer) != -1) {
-            act = this.toDec(Integer.parseInt(new String(buffer)));
-            probs[act][ant] += 1;
-            ant = act;
-        }
-        reader.close();
-
-        for (int j = 0; j < 4; j++) {
-            int finalJ = j;
-            double sum = Arrays.stream(probs).mapToDouble(row -> row[finalJ]).sum();
-//            System.out.println(finalJ + " " + sum);
-            for (int i = 0; i < 4; i++) {
-                probs[i][j] /= sum;
-            }
-        }
-        this.printMat(probs);
-    }
-
-    private void printMat(double[][] mat) {
-        for (int i = 0; i < 4; i++) {
-            System.out.print('|');
-            for (int j = 0; j < 4; j++) {
-                System.out.printf("%10.2f", mat[i][j]);
-            }
-            System.out.println("|");
-        }
-        System.out.println();
+        this.info.clear();
     }
 }
