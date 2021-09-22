@@ -1,14 +1,30 @@
 package incisoa;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 public class FileDecoder {
-    private final HashMap<String, Integer> frec = new HashMap<>();
-    private final HashMap<String, Double> prob = new HashMap<>();
-    private final HashMap<String, Double> info = new HashMap<>();
-    private TreeSet<String> palabras;
+    private final TreeMap<String, Integer> frec = new TreeMap<>();
+    private final TreeMap<String, Double> prob = new TreeMap<>();
+    private final TreeMap<String, Double> info = new TreeMap<>();
+
+    public static void main(String[] args) {
+        FileDecoder fileDecoder = new FileDecoder();
+        try {
+            fileDecoder.parseFile("src/resources/anexo1-grupo5.txt", 2);
+            fileDecoder.writeToTxt("src/results/resultados2digitos.txt");
+            fileDecoder.writeToCsv("src/results/resultados2digitos.csv");
+            fileDecoder.clearAll();
+            for (int i = 5; i < 10; i += 2) {
+                fileDecoder.parseFile("src/resources/anexo1-grupo5.txt", i);
+                fileDecoder.writeToTxt("src/results/resultados" + i + "digitos.txt");
+                fileDecoder.writeToCsv("src/results/resultados" + i + "digitos.csv");
+                fileDecoder.clearAll();
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public void parseFile(String inputfile, int digitosPalabra) throws IOException {
         Reader reader = new FileReader(inputfile);
@@ -23,10 +39,9 @@ public class FileDecoder {
         }
         reader.close();
 
-        this.palabras = new TreeSet<>(this.frec.keySet()); // para imprimir ordenado
         total = this.frec.values().stream().mapToInt(Integer::intValue).sum();
 
-        for (String str : this.palabras) {
+        for (String str : this.frec.keySet()) {
             prob = (double) this.frec.get(str) / total;
             this.prob.put(str, prob);
             this.info.put(str, cantidadDeInformacion(prob));
@@ -35,7 +50,7 @@ public class FileDecoder {
 
     public void printFrecuencies() {
         System.out.println("Frecuencias: ");
-        for (String s : this.palabras) {
+        for (String s : this.frec.keySet()) {
             System.out.println("[" + s + "] = " + this.frec.get(s));
         }
         System.out.println("total = " + this.frec.values().stream().mapToInt(Integer::intValue).sum());
@@ -44,7 +59,7 @@ public class FileDecoder {
 
     public void printCantidadDeInfo() {
         System.out.println("Cantidad de info: ");
-        for (String s : this.palabras) {
+        for (String s : this.frec.keySet()) {
             System.out.println("I(" + s + ") = " + this.info.get(s));
         }
         System.out.println();
@@ -52,7 +67,7 @@ public class FileDecoder {
 
     public void printProbabilidad() {
         System.out.println("Probabilidades: ");
-        for (String s : this.palabras) {
+        for (String s : this.frec.keySet()) {
             System.out.println("P(" + s + ") = " + this.prob.get(s));
         }
         System.out.println("suma = " + this.prob.values().stream().mapToDouble(Double::doubleValue).sum());
@@ -65,7 +80,7 @@ public class FileDecoder {
 
     public double entropia() {
         double h = 0;
-        for (String s : this.palabras) {
+        for (String s : this.frec.keySet()) {
             h += this.prob.get(s) * this.info.get(s);
         }
         return h;
@@ -89,7 +104,7 @@ public class FileDecoder {
         double suma = this.prob.values().stream().mapToDouble(Double::doubleValue).sum();
 
         file.write(String.join(",", "Palabras", "Frecuencia", "Probabilidad", "Cant. Informacion", "\n"));
-        for (String key : this.palabras) {
+        for (String key : this.frec.keySet()) {
             file.write(String.join(",", key, Integer.toString(this.frec.get(key)), Double.toString(this.prob.get(key)),
                     Double.toString(this.info.get(key)), "\n"));
         }
@@ -99,7 +114,6 @@ public class FileDecoder {
     }
 
     public void clearAll() {
-        this.palabras.clear();
         this.prob.clear();
         this.frec.clear();
         this.info.clear();
