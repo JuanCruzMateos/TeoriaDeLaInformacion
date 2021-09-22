@@ -16,6 +16,7 @@ public class FileDecoder {
 
         fd.probCondicionales("src/resources/anexo1-grupo5.txt");
     }
+
     public void parseFile(String inputfile, int digitosPalabra) throws IOException {
         Reader reader = new FileReader(inputfile);
         char[] buffer = new char[digitosPalabra];
@@ -113,11 +114,9 @@ public class FileDecoder {
 
     private int toDec(int bin) {
         int dec = 0, i = 1;
-        int nro;
 
         do {
-            nro = bin % 10;
-            dec += nro * i;
+            dec += (bin % 10) * i;
             i *= 2;
             bin = bin / 10;
         } while (bin != 0);
@@ -141,8 +140,25 @@ public class FileDecoder {
         }
         reader.close();
 
-        System.out.println(Arrays.deepToString(probs));
+        for (int j = 0; j < 4; j++) {
+            int finalJ = j;
+            double sum = Arrays.stream(probs).mapToDouble(row -> row[finalJ]).sum();
+//            System.out.println(finalJ + " " + sum);
+            for (int i = 0; i < 4; i++) {
+                probs[i][j] /= sum;
+            }
+        }
+        this.printMat(probs);
+    }
 
-        
+    private void printMat(double[][] mat) {
+        for (int i = 0; i < 4; i++) {
+            System.out.print('|');
+            for (int j = 0; j < 4; j++) {
+                System.out.printf("%10.2f", mat[i][j]);
+            }
+            System.out.println("|");
+        }
+        System.out.println();
     }
 }
