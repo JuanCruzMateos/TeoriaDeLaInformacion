@@ -77,6 +77,7 @@ public class FileParser {
         this.printCantidadDeInfo();
         System.out.println("Entropia:");
         System.out.println("H(S) = " + this.entropia());
+        System.out.println();
         System.setOut(stdout);
     }
 
