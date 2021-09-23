@@ -4,18 +4,30 @@ import java.io.*;
 import java.util.Arrays;
 
 public class Markov {
+    private static final int INF = 999;
     private static final int DIGITOS = 2;
     private static final int ESTADOS = 4;
     private final double[][] probCond = new double[ESTADOS][ESTADOS];
     private final double[] vecEstacionario = new double[ESTADOS];
 
-    public static void main(String[] args) throws IOException {
+    public Markov() {
+        this.vecEstacionario[0] = 1;
+        for (int i = 1; i < ESTADOS; i++) {
+            this.vecEstacionario[i] = 0;
+        }
+    }
+
+    public static void main(String[] args) {
         Markov markov = new Markov();
 
-        markov.readFile("src/resources/anexo1-grupo5.txt");
-        markov.calcProbCondicionales();
-        markov.calcVectorEstacionario();
-        markov.writeTxt("src/results/markov.txt");
+        try {
+            markov.readFile("src/resources/anexo1-grupo5.txt");
+            markov.calcProbCondicionales();
+            markov.calcVectorEstacionario();
+            markov.writeTxt("src/results/markov.txt");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void readFile(String inputfile) throws IOException {
@@ -51,11 +63,6 @@ public class Markov {
         double tol = 10E-7;
         double err = 1;
         double acum;
-
-        this.vecEstacionario[0] = 1;
-        for (int i = 1; i < ESTADOS; i++) {
-            this.vecEstacionario[i] = 0;
-        }
 
         while (err > tol) {
             for (int i = 0; i < ESTADOS; i++) {
@@ -113,7 +120,7 @@ public class Markov {
         System.setOut(stdout);
     }
 
-    // TODO: 23/09/2021
+    // TODO:
     private boolean warshall(double[][] probs) {
         int[][] a = new int[4][4];
         int i, j, k;
@@ -123,7 +130,7 @@ public class Markov {
                 if (i == j)
                     a[i][j] = 0;
                 else if (probs[i][j] == 0)
-                    a[i][j] = Integer.MAX_VALUE;
+                    a[i][j] = INF;
                 else
                     a[i][j] = 1;
             }
@@ -132,13 +139,17 @@ public class Markov {
         for (k = 0; k < 4; k++) {
             for (i = 0; i < 4; i++) {
                 for (j = 0; j < 4; j++) {
-                    if (a[i][k] + a[k][j] != 0 && a[i][k] + a[k][j] != Integer.MAX_VALUE) {
+                    if (a[i][k] + a[k][j] != 0 && a[i][k] + a[k][j] < INF) {
                         a[i][j] = 1;
                     }
                 }
             }
         }
-        return true;
+        return false;
+    }
+
+    public double entropia() {
+        return 0;
     }
 
 }
