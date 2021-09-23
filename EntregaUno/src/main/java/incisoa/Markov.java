@@ -12,12 +12,13 @@ public class Markov {
     public static void main(String[] args) throws IOException {
         Markov markov = new Markov();
 
-        markov.probCondicionales("src/resources/anexo1-grupo5.txt");
+        markov.readFile("src/resources/anexo1-grupo5.txt");
+        markov.calcProbCondicionales();
         markov.calcVectorEstacionario();
         markov.writeTxt("src/results/markov.txt");
     }
 
-    public void probCondicionales(String inputfile) throws IOException {
+    public void readFile(String inputfile) throws IOException {
         Reader reader = new FileReader(inputfile);
         char[] buffer = new char[DIGITOS];
         int ant, act;
@@ -32,6 +33,9 @@ public class Markov {
             ant = act;
         }
         reader.close();
+    }
+
+    public void calcProbCondicionales() {
         for (int j = 0; j < ESTADOS; j++) {
             int finalJ = j;
             double sum = Arrays.stream(this.probCond).mapToDouble(row -> row[finalJ]).sum();
@@ -109,7 +113,7 @@ public class Markov {
         System.setOut(stdout);
     }
 
-    // TODO: 23/09/2021  
+    // TODO: 23/09/2021
     private boolean warshall(double[][] probs) {
         int[][] a = new int[4][4];
         int i, j, k;
