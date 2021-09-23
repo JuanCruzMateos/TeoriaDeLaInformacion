@@ -3,23 +3,23 @@ package incisoa;
 import java.io.*;
 import java.util.TreeMap;
 
-public class FileDecoder {
+public class Fuente {
     private final TreeMap<String, Integer> frec = new TreeMap<>();
     private final TreeMap<String, Double> prob = new TreeMap<>();
     private final TreeMap<String, Double> info = new TreeMap<>();
 
     public static void main(String[] args) {
-        FileDecoder fileDecoder = new FileDecoder();
+        Fuente fuente = new Fuente();
         try {
-            fileDecoder.parseFile("src/resources/anexo1-grupo5.txt", 2);
-            fileDecoder.writeToTxt("src/results/resultados2digitos.txt");
-            fileDecoder.writeToCsv("src/results/resultados2digitos.csv");
-            fileDecoder.clearAll();
+            fuente.parseFile("src/resources/anexo1-grupo5.txt", 2);
+            fuente.writeToTxt("src/results/resultados2digitos.txt");
+            fuente.writeToCsv("src/results/resultados2digitos.csv");
+            fuente.clearAll();
             for (int i = 5; i < 10; i += 2) {
-                fileDecoder.parseFile("src/resources/anexo1-grupo5.txt", i);
-                fileDecoder.writeToTxt("src/results/resultados" + i + "digitos.txt");
-                fileDecoder.writeToCsv("src/results/resultados" + i + "digitos.csv");
-                fileDecoder.clearAll();
+                fuente.parseFile("src/resources/anexo1-grupo5.txt", i);
+                fuente.writeToTxt("src/results/resultados" + i + "digitos.txt");
+                fuente.writeToCsv("src/results/resultados" + i + "digitos.csv");
+                fuente.clearAll();
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
