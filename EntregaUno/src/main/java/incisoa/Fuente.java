@@ -3,10 +3,16 @@ package incisoa;
 import java.io.*;
 import java.util.TreeMap;
 
+/**
+ * @author Noelia Echeverria
+ * @author Camila Ezama
+ * @author Juan Cruz Mateos
+ */
+
 public class Fuente {
-    private final TreeMap<String, Integer> frec = new TreeMap<>();
-    private final TreeMap<String, Double> prob = new TreeMap<>();
-    private final TreeMap<String, Double> info = new TreeMap<>();
+    protected final TreeMap<String, Integer> frec = new TreeMap<>();
+    protected final TreeMap<String, Double> prob = new TreeMap<>();
+    protected final TreeMap<String, Double> info = new TreeMap<>();
 
     public static void main(String[] args) {
         Fuente fuente = new Fuente();
@@ -94,7 +100,7 @@ public class Fuente {
         this.printProbabilidad();
         this.printCantidadDeInfo();
         System.out.println("Entropia:");
-        System.out.println("H(S) = " + this.entropia());
+        System.out.println("H(S) = " + this.entropia() + " bits");
         System.setOut(stdout);
     }
 

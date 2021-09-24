@@ -3,6 +3,12 @@ package incisoa;
 import java.io.*;
 import java.util.Arrays;
 
+/**
+ * @author Noelia Echeverria
+ * @author Camila Ezama
+ * @author Juan Cruz Mateos
+ */
+
 public class Markov {
     private static final double TOL = 10E-7;
     private static final int INF = 999;
@@ -18,7 +24,8 @@ public class Markov {
             markov.readFile("src/resources/anexo1-grupo5.txt");
             markov.calcProbCondicionales();
             markov.calcVectorEstacionario();
-            markov.writeTxt("src/results/markov.txt");
+            markov.writeToTxt("src/results/markov.txt");
+            markov.writeToCsv("src/results/markov.csv");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -127,16 +134,44 @@ public class Markov {
         System.out.println(Arrays.toString(this.vecEstacionario));
     }
 
-    public void writeTxt(String filename) throws FileNotFoundException {
+    public void writeToTxt(String filename) throws FileNotFoundException {
         PrintStream stdout = System.out;
         System.setOut(new PrintStream(filename));
         this.printProbCond();
         System.out.println();
         this.printVectorEstacionario();
         System.out.println();
-        System.out.println("Entropia:\nH(S) = " + this.entropia(this.probCond, this.vecEstacionario));
+        System.out.println("Entropia:\nH(S) = " + this.entropia(this.probCond, this.vecEstacionario) + " bits");
         System.setOut(stdout);
     }
+
+
+    public void writeToCsv(String outputfile) throws IOException {
+        Writer file = new FileWriter(outputfile);
+        StringBuilder sb = null;
+
+        file.write("Matriz de transicion:\n");
+        for (int i = 0; i < Markov.ESTADOS; i++) {
+            sb = new StringBuilder();
+            sb.append(',');
+            for (int j = 0; j < Markov.ESTADOS; j++) {
+                sb.append(Double.toString(this.probCond[i][j])).append(',');
+            }
+            file.write(sb.append("\n").toString());
+        }
+        file.write("\n");
+        file.write("Vector estacionario:\n");
+        sb = new StringBuilder();
+        sb.append(",");
+        for (int i = 0; i < Markov.ESTADOS; i++) {
+            sb.append(this.vecEstacionario[i]).append(',');
+        }
+        file.write(sb.append("\n").toString());
+        file.write("\n");
+        file.write(String.join(", ", "Entropia:", Double.toString(this.entropia(this.probCond, this.vecEstacionario))));
+        file.close();
+    }
+
 
     // TODO:
     private boolean warshall(double[][] probs) {
