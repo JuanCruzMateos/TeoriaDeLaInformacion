@@ -6,6 +6,11 @@ import java.io.*;
 import java.util.PriorityQueue;
 import java.util.TreeMap;
 
+/**
+ * @author Noelia Echeverria
+ * @author Camila Ezama
+ * @author Juan Cruz Mateos
+ */
 
 public class Huffman extends Fuente {
     private final TreeMap<String, String> huffcodes = new TreeMap<>();
