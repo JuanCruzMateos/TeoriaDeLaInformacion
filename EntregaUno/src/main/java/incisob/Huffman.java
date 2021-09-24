@@ -22,18 +22,16 @@ public class Huffman extends Fuente {
         try {
             huffman.parseFile("src/resources/anexo1-grupo5.txt", 2);
             huffman.crearTree();
-            huffman.encode(huffman.getRoot(), "");
-//            huffman.printCodes();
+            huffman.generarCodigos();
             huffman.writeHuffmanToTxt("src/results/huffman2digitos.txt");
             huffman.writeHuffmanToCsv("src/results/huffman2digitos.csv");
-            huffman.free();
+            huffman.clearAll();
             for (int i = 5; i < 10; i += 2) {
                 huffman.parseFile("src/resources/anexo1-grupo5.txt", i);
                 huffman.crearTree();
-                huffman.encode(huffman.getRoot(), "");
-//                huffman.printCodes();
+                huffman.generarCodigos();
                 huffman.writeHuffmanToCsv("src/results/huffman" + i + "digitos.csv");
-                huffman.free();
+                huffman.clearAll();
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -56,7 +54,11 @@ public class Huffman extends Fuente {
         }
     }
 
-    public void encode(Nodo root, String s) {
+    public void generarCodigos() {
+        this.encode(this.root, "");
+    }
+
+    private void encode(Nodo root, String s) {
         if (root.isHoja()) {
             this.huffcodes.put(root.simb, s);
         } else {
@@ -93,14 +95,11 @@ public class Huffman extends Fuente {
         file.close();
     }
 
-    public void free() {
+    @Override
+    public void clearAll() {
         super.clearAll();
         this.root = null;
         this.huffcodes.clear();
-    }
-
-    public Nodo getRoot() {
-        return root;
     }
 
     private static class Nodo implements Comparable<Nodo> {
