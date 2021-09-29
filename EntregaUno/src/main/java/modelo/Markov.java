@@ -1,4 +1,4 @@
-package incisoa;
+package modelo;
 
 import java.io.*;
 import java.util.Arrays;
@@ -16,21 +16,6 @@ public class Markov {
     private static final int ESTADOS = 4;
     private final double[][] probCond = new double[Markov.ESTADOS][Markov.ESTADOS];
     private final double[] vecEstacionario = new double[Markov.ESTADOS];
-
-    public static void main(String[] args) {
-        Markov markov = new Markov();
-
-        try {
-            markov.readFile("src/resources/anexo1-grupo5.txt");
-            markov.calcProbCondicionales();
-            markov.calcVectorEstacionario();
-            markov.writeToTxt("src/results/markov.txt");
-            markov.writeToCsv("src/results/markov.csv");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
 
     public void readFile(String inputfile) throws IOException {
         Reader reader = new FileReader(inputfile);
@@ -148,14 +133,14 @@ public class Markov {
 
     public void writeToCsv(String outputfile) throws IOException {
         Writer file = new FileWriter(outputfile);
-        StringBuilder sb = null;
+        StringBuilder sb;
 
         file.write("Matriz de transicion:\n");
         for (int i = 0; i < Markov.ESTADOS; i++) {
             sb = new StringBuilder();
             sb.append(',');
             for (int j = 0; j < Markov.ESTADOS; j++) {
-                sb.append(Double.toString(this.probCond[i][j])).append(',');
+                sb.append(this.probCond[i][j]).append(',');
             }
             file.write(sb.append("\n").toString());
         }
@@ -200,5 +185,4 @@ public class Markov {
         }
         return true;
     }
-
 }

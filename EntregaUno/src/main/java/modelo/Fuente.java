@@ -1,4 +1,4 @@
-package incisoa;
+package modelo;
 
 import java.io.*;
 import java.util.TreeMap;
@@ -13,24 +13,8 @@ public class Fuente {
     protected final TreeMap<String, Integer> frec = new TreeMap<>();
     protected final TreeMap<String, Double> prob = new TreeMap<>();
     protected final TreeMap<String, Double> info = new TreeMap<>();
-
-    public static void main(String[] args) {
-        Fuente fuente = new Fuente();
-        try {
-            fuente.parseFile("src/resources/anexo1-grupo5.txt", 2);
-            fuente.writeToTxt("src/results/resultados2digitos.txt");
-            fuente.writeToCsv("src/results/resultados2digitos.csv");
-            fuente.clearAll();
-            for (int i = 5; i < 10; i += 2) {
-                fuente.parseFile("src/resources/anexo1-grupo5.txt", i);
-                fuente.writeToTxt("src/results/resultados" + i + "digitos.txt");
-                fuente.writeToCsv("src/results/resultados" + i + "digitos.csv");
-                fuente.clearAll();
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+    protected String inputfile;
+    protected int digitosPalabra;
 
     public void parseFile(String inputfile, int digitosPalabra) throws IOException {
         Reader reader = new FileReader(inputfile);
@@ -39,6 +23,8 @@ public class Fuente {
         double prob;
         int total;
 
+        this.inputfile = inputfile;
+        this.digitosPalabra = digitosPalabra;
         while (reader.read(buffer) != -1) {
             word = new String(buffer);
             this.frec.put(word, this.frec.getOrDefault(word, 0) + 1);
@@ -90,6 +76,30 @@ public class Fuente {
             h += this.prob.get(s) * this.info.get(s);
         }
         return h;
+    }
+
+    public double kraft() {
+        double suma = 0;
+        for (String key : this.frec.keySet()) {
+            suma += Math.pow(2.0, -1.0 * key.length());
+        }
+        return suma;
+    }
+
+    public double longitudMedia() {
+        double longitud = 0;
+        for (String key : this.frec.keySet()) {
+            longitud += this.prob.get(key) * key.length();
+        }
+        return longitud;
+    }
+
+    public double rendimiento() {
+        return this.entropia() / this.longitudMedia();
+    }
+
+    public double redundancia() {
+        return 1.0 - this.rendimiento();
     }
 
     public void writeToTxt(String outputfile) throws IOException {

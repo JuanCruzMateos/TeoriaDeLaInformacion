@@ -1,6 +1,4 @@
-package incisob;
-
-import incisoa.Fuente;
+package modelo;
 
 import java.io.*;
 import java.util.PriorityQueue;
@@ -16,29 +14,7 @@ public class Huffman extends Fuente {
     private final TreeMap<String, String> huffcodes = new TreeMap<>();
     private Nodo root;
 
-    public static void main(String[] args) {
-        Huffman huffman = new Huffman();
-
-        try {
-            huffman.parseFile("src/resources/anexo1-grupo5.txt", 2);
-            huffman.crearTree();
-            huffman.generarCodigos();
-            huffman.writeHuffmanToTxt("src/results/huffman2digitos.txt");
-            huffman.writeHuffmanToCsv("src/results/huffman2digitos.csv");
-            huffman.clearAll();
-            for (int i = 5; i < 10; i += 2) {
-                huffman.parseFile("src/resources/anexo1-grupo5.txt", i);
-                huffman.crearTree();
-                huffman.generarCodigos();
-                huffman.writeHuffmanToCsv("src/results/huffman" + i + "digitos.csv");
-                huffman.clearAll();
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void crearTree() {
+    public void crearArbol() {
         PriorityQueue<Nodo> pq = new PriorityQueue<>();
         Nodo hijoIzq, hijoDer, padre;
 
@@ -67,10 +43,6 @@ public class Huffman extends Fuente {
         }
     }
 
-    public void decode() {
-
-    }
-
     public void printCodes() {
         System.out.println("Codigo ---> Huffman");
         for (String s : this.huffcodes.keySet()) {
@@ -94,6 +66,21 @@ public class Huffman extends Fuente {
         }
         file.close();
     }
+
+    public void newHuffmanFile(String newfile) throws IOException {
+        Reader reader = new FileReader(this.inputfile);
+        char[] buffer = new char[this.digitosPalabra];
+        Writer writer = new FileWriter(newfile);
+        String word;
+
+        while (reader.read(buffer) != -1) {
+            word = new String(buffer);
+            writer.write(this.huffcodes.get(word));
+        }
+        reader.close();
+        writer.close();
+    }
+
 
     @Override
     public void clearAll() {
