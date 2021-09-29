@@ -110,7 +110,15 @@ public class Fuente {
         this.printProbabilidad();
         this.printCantidadDeInfo();
         System.out.println("Entropia:");
-        System.out.println("H(S) = " + this.entropia() + " bits");
+        System.out.println("H(S) = " + this.entropia() + " bits\n");
+        System.out.println("Kraft:");
+        System.out.println("k = " + this.kraft() + "\n");
+        System.out.println("Longitud media:");
+        System.out.println("L = " + this.longitudMedia() + "\n");
+        System.out.println("Rendimiento:");
+        System.out.println("n = " + this.rendimiento() + "\n");
+        System.out.println("Rendundancia:");
+        System.out.println("n = " + this.redundancia());
         System.setOut(stdout);
     }
 
@@ -125,7 +133,11 @@ public class Fuente {
                     Double.toString(this.info.get(key)), "\n"));
         }
         file.write(String.join(",", " ", Integer.toString(total), Double.toString(suma), " \n"));
+        file.write("\n");
         file.write(String.join(",", "Entropia H(S)", Double.toString(this.entropia()), "\n"));
+        file.write(String.join(",", "Kraft", Double.toString(this.kraft()), "\n"));
+        file.write(String.join(",", "Rendimiento", Double.toString(this.rendimiento()), "\n"));
+        file.write(String.join(",", "Redundancia", Double.toString(this.redundancia()), "\n"));
         file.close();
     }
 

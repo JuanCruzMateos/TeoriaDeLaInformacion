@@ -104,3 +104,15 @@ I(11111) = 4.8729432636851815
 
 Entropia:
 H(S) = 4.996012045108118 bits
+
+Kraft:
+k = 1.0
+
+Longitud media:
+L = 5.000000000000001
+
+Rendimiento:
+n = 0.9992024090216234
+
+Rendundancia:
+n = 7.975909783766166E-4
