@@ -81,6 +81,9 @@ public class Huffman extends Fuente {
         writer.close();
     }
 
+    public TreeMap<String, String> getHuffcodes() {
+        return huffcodes;
+    }
 
     @Override
     public void clearAll() {
@@ -107,8 +110,13 @@ public class Huffman extends Fuente {
         }
 
         @Override
-        public int compareTo(Nodo otro) {
-            return Double.compare(this.prob, otro.prob);
+        public int compareTo(Nodo o) {
+            return Double.compare(this.prob, o.prob);
+        }
+
+        @Override
+        public String toString() {
+            return "{ " + this.prob + " }";
         }
     }
 }
