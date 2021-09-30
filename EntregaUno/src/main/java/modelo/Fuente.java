@@ -149,5 +149,7 @@ public class Fuente {
         this.prob.clear();
         this.frec.clear();
         this.info.clear();
+        this.inputfile = null;
+        this.digitosPalabra = 0;
     }
 }

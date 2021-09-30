@@ -14,7 +14,7 @@ public class Huffman extends Fuente {
     private final TreeMap<String, String> huffcodes = new TreeMap<>();
     private Nodo root;
 
-    public void crearArbol() {
+    public void crearArbolHuffman() {
         PriorityQueue<Nodo> pq = new PriorityQueue<>();
         Nodo hijoIzq, hijoDer, padre;
 
@@ -76,6 +76,28 @@ public class Huffman extends Fuente {
         while (reader.read(buffer) != -1) {
             word = new String(buffer);
             writer.write(this.huffcodes.get(word));
+        }
+        reader.close();
+        writer.close();
+    }
+
+    public String getHuffmanCode(String word) {
+        return this.huffcodes.get(word);
+    }
+
+    public void decompress(String filename) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        Writer writer = new FileWriter("src/resources/recovery" + this.digitosPalabra + ".txt");
+        Nodo nodo;
+        int c;
+
+        while ((c = reader.read()) != -1) {
+            nodo = this.root;
+            nodo = (char) c == '0' ? nodo.izq : nodo.der;
+            while (!nodo.isHoja()) {
+                nodo = ((char) reader.read()) == '0' ? nodo.izq : nodo.der;
+            }
+            writer.write(nodo.simb);
         }
         reader.close();
         writer.close();

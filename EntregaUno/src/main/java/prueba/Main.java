@@ -44,21 +44,21 @@ public class Main {
         Huffman huffman = new Huffman();
         try {
             huffman.parseFile(filename, 2);
-            huffman.crearArbol();
+            huffman.crearArbolHuffman();
             huffman.generarCodigos();
             huffman.writeHuffmanToTxt("src/results/huffman2digitos.txt");
             huffman.writeHuffmanToCsv("src/results/huffman2digitos.csv");
             huffman.newHuffmanFile("src/results/anexo1-grupo5-huffman2.txt");
+            huffman.decompress("src/results/anexo1-grupo5-huffman2.txt");
             huffman.clearAll();
             for (int i = 5; i < 10; i += 2) {
                 huffman.parseFile(filename, i);
-                huffman.crearArbol();
+                huffman.crearArbolHuffman();
                 huffman.generarCodigos();
-//                huffman.printCodes();
-//                System.out.println(huffman.getHuffcodes().keySet().size());
                 huffman.writeHuffmanToTxt("src/results/huffman" + i + "digitos.txt");
                 huffman.writeHuffmanToCsv("src/results/huffman" + i + "digitos.csv");
                 huffman.newHuffmanFile("src/results/anexo1-grupo5-huffman" + i + ".txt");
+                huffman.decompress("src/results/anexo1-grupo5-huffman" + i + ".txt");
                 huffman.clearAll();
             }
         } catch (IOException e) {
