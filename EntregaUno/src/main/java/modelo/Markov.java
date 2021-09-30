@@ -25,7 +25,6 @@ public class Markov {
         if (reader.read(buffer) == -1) {
             throw new IOException("Eof");
         }
-        // TODO :: revisar
         ant = this.toDec(Integer.parseInt(new String(buffer)));
         while (reader.read(buffer) != -1) {
             act = this.toDec(Integer.parseInt(new String(buffer)));

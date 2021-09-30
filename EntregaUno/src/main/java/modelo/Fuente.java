@@ -102,6 +102,7 @@ public class Fuente {
         return 1.0 - this.rendimiento();
     }
 
+    // TODO
     public boolean compacto() {
         return this.longitudMedia() >= this.entropia();
     }

@@ -10,13 +10,8 @@ public class Main {
     public static void main(String[] args) {
         String filename = "src/resources/anexo1-grupo5.txt";
 
-        // 1a
         Fuente fuente = new Fuente();
         try {
-            fuente.parseFile(filename, 2);
-            fuente.writeToTxt("src/results/resultados2digitos.txt");
-            fuente.writeToCsv("src/results/resultados2digitos.csv");
-            fuente.clearAll();
             for (int i = 5; i < 10; i += 2) {
                 fuente.parseFile(filename, i);
                 fuente.writeToTxt("src/results/resultados" + i + "digitos.txt");
@@ -27,7 +22,6 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-        //
         Markov markov = new Markov();
         try {
             markov.readFile(filename);
@@ -38,19 +32,9 @@ public class Main {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
-
-        //
+        
         Huffman huffman = new Huffman();
         try {
-            huffman.parseFile(filename, 2);
-            huffman.crearArbolHuffman();
-            huffman.generarCodigos();
-            huffman.writeHuffmanToTxt("src/results/huffman2digitos.txt");
-            huffman.writeHuffmanToCsv("src/results/huffman2digitos.csv");
-            huffman.newHuffmanFile("src/results/anexo1-grupo5-huffman2.txt");
-            huffman.decompress("src/results/anexo1-grupo5-huffman2.txt");
-            huffman.clearAll();
             for (int i = 5; i < 10; i += 2) {
                 huffman.parseFile(filename, i);
                 huffman.crearArbolHuffman();
