@@ -44,7 +44,7 @@ public class Huffman extends Fuente {
     }
 
     public void printCodes() {
-        System.out.println("Codigo ---> Huffman");
+        System.out.println("Codigo ---> Huffman\n");
         for (String s : this.huffcodes.keySet()) {
             System.out.println(s + " ---> " + this.huffcodes.get(s));
         }
