@@ -102,6 +102,10 @@ public class Fuente {
         return 1.0 - this.rendimiento();
     }
 
+    public boolean compacto() {
+        return this.longitudMedia() >= this.entropia();
+    }
+
     public void writeToTxt(String outputfile) throws IOException {
         PrintStream stdout = System.out;
         System.setOut(new PrintStream(outputfile));

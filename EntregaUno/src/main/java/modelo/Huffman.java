@@ -25,9 +25,9 @@ public class Huffman extends Fuente {
             hijoIzq = pq.poll();
             hijoDer = pq.poll();
             padre = new Nodo(null, hijoIzq.prob + hijoDer.prob, hijoIzq, hijoDer);
-            this.root = padre;
             pq.add(padre);
         }
+        this.root = pq.poll();
     }
 
     public void generarCodigos() {

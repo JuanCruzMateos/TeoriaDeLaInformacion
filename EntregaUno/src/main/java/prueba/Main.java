@@ -52,6 +52,7 @@ public class Main {
                 huffman.parseFile("src/resources/anexo1-grupo5.txt", i);
                 huffman.crearArbol();
                 huffman.generarCodigos();
+                huffman.printCodes();
                 huffman.writeHuffmanToTxt("src/results/huffman" + i + "digitos.txt");
                 huffman.writeHuffmanToCsv("src/results/huffman" + i + "digitos.csv");
                 huffman.newHuffmanFile("src/results/anexo1-grupo5-huffman" + i + ".txt");
