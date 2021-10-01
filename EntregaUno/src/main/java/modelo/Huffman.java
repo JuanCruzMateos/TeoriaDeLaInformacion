@@ -11,8 +11,8 @@ import java.util.TreeMap;
  */
 
 public class Huffman extends Fuente {
-    private final TreeMap<String, String> huffcodes = new TreeMap<>();
-    private Nodo root;
+    protected final TreeMap<String, String> huffcodes = new TreeMap<>();
+    protected Nodo root;
 
     public void crearArbolHuffman() {
         PriorityQueue<Nodo> pq = new PriorityQueue<>();
