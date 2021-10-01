@@ -111,6 +111,24 @@ public class Fuente {
         PrintStream stdout = System.out;
         System.setOut(new PrintStream(outputfile));
 
+        System.out.println(this);
+        System.out.println("Entropia:");
+        System.out.println("H(S) = " + this.entropia() + " bits\n");
+        System.out.println("Kraft:");
+        System.out.println("k = " + this.kraft() + "\n");
+        System.out.println("Longitud media:");
+        System.out.println("L = " + this.longitudMedia() + "\n");
+        System.out.println("Rendimiento:");
+        System.out.println("n = " + this.rendimiento() + "\n");
+        System.out.println("Rendundancia:");
+        System.out.println("n = " + this.redundancia());
+        System.setOut(stdout);
+    }
+
+    public void printToTxt(String outputfile) throws IOException {
+        PrintStream stdout = System.out;
+        System.setOut(new PrintStream(outputfile));
+
         this.printFrecuencies();
         this.printProbabilidad();
         this.printCantidadDeInfo();
@@ -152,5 +170,20 @@ public class Fuente {
         this.info.clear();
         this.inputfile = null;
         this.digitosPalabra = 0;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Escenario: palabras ").append(this.digitosPalabra).append(" digitos.\n").append("\n");
+        sb.append(String.format("%-15s%-15s%-20s%-20s\n", "Palabra", "Frecuencia", "Probabilidad", "Cant. informacion"));
+        sb.append(new String(new char[67]).replace('\0', '-')).append("\n");
+        for (String palabra : this.prob.keySet()) {
+            sb.append(String.format("%-15s%-15d%-20.15f%-20.15f\n", palabra, this.frec.get(palabra), this.prob.get(palabra), this.info.get(palabra)));
+        }
+        sb.append(new String(new char[67]).replace('\0', '-')).append("\n");
+        sb.append(String.format("%-15s%-15s%-20s%-20s\n", this.prob.keySet().size(), this.frec.values().stream().mapToInt(Integer::intValue).sum(), this.prob.values().stream().mapToDouble(Double::doubleValue).sum(), ""));
+        return sb.toString();
     }
 }

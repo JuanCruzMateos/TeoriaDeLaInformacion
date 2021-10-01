@@ -77,6 +77,15 @@ public class Markov {
         return max;
     }
 
+    public double[] vectorErroresEquip() {
+        double[] err = new double[Markov.ESTADOS];
+
+        for (int i = 0; i < Markov.ESTADOS; i++) {
+            err[i] = Math.abs(0.25 - this.vecEstacionario[i]);
+        }
+        return err;
+    }
+
     public double entropia(double[][] prob, double[] vec) {
         double h = 0, aux;
 
@@ -121,11 +130,14 @@ public class Markov {
     public void writeToTxt(String filename) throws FileNotFoundException {
         PrintStream stdout = System.out;
         System.setOut(new PrintStream(filename));
+
         this.printProbCond();
         System.out.println();
         this.printVectorEstacionario();
         System.out.println();
-        System.out.println("Entropia:\nH(S) = " + this.entropia(this.probCond, this.vecEstacionario) + " bits");
+        System.out.println("Errores al suponiendo fuente de memoria nula:");
+        System.out.println(Arrays.toString(this.vectorErroresEquip()));
+        System.out.println("\nEntropia:\nH(S) = " + this.entropia(this.probCond, this.vecEstacionario) + " bits");
         System.setOut(stdout);
     }
 

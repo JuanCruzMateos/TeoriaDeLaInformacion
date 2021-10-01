@@ -32,7 +32,7 @@ public class Main {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        
+
         Huffman huffman = new Huffman();
         try {
             for (int i = 5; i < 10; i += 2) {

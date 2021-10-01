@@ -44,9 +44,9 @@ public class Huffman extends Fuente {
     }
 
     public void printCodes() {
-        System.out.println("Codigo ---> Huffman\n");
+        System.out.printf("%-15s %-15s\n", "Palabra", "Huffman");
         for (String s : this.huffcodes.keySet()) {
-            System.out.println(s + " ---> " + this.huffcodes.get(s));
+            System.out.printf("%-15s %-15s%n", s, this.huffcodes.get(s));
         }
     }
 
