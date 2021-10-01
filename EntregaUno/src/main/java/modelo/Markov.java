@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class Markov {
     private static final double TOL = 10E-7;
-    private static final int INF = 999;
+    private static final int INF = 99999;
     private static final int DIGITOS = 2;
     private static final int ESTADOS = 4;
     private final double[][] probCond = new double[Markov.ESTADOS][Markov.ESTADOS];
@@ -169,31 +169,41 @@ public class Markov {
     }
 
 
-    // TODO:
-    private boolean warshall(double[][] probs) {
-        int[][] a = new int[4][4];
+    // Warshall
+    private boolean ergodica(double[][] probs) {
+        int[][] a = new int[Markov.ESTADOS][Markov.ESTADOS];
+        boolean ergo = true;
         int i, j, k;
 
-        for (i = 0; i < 4; i++) {
-            for (j = 0; j < 4; j++) {
+        for (i = 0; i < Markov.ESTADOS; i++) {
+            for (j = 0; j < Markov.ESTADOS; j++) {
                 if (i == j)
                     a[i][j] = 0;
                 else if (probs[i][j] == 0)
-                    a[i][j] = INF;
+                    a[j][i] = INF;
                 else
-                    a[i][j] = 1;
+                    a[j][i] = 1;
             }
         }
-
-        for (k = 0; k < 4; k++) {
-            for (i = 0; i < 4; i++) {
-                for (j = 0; j < 4; j++) {
+        for (k = 0; k < Markov.ESTADOS; k++) {
+            for (i = 0; i < Markov.ESTADOS; i++) {
+                for (j = 0; j < Markov.ESTADOS; j++) {
                     if (a[i][k] + a[k][j] != 0 && a[i][k] + a[k][j] < INF) {
                         a[i][j] = 1;
                     }
                 }
             }
         }
-        return true;
+        i = 0;
+        while (i < Markov.ESTADOS && ergo) {
+            j = 0;
+            while (j < Markov.ESTADOS && ergo) {
+                if (i != j && a[i][j] == INF)
+                    ergo = false;
+                j += 1;
+            }
+            i += 1;
+        }
+        return ergo;
     }
 }

@@ -29,6 +29,7 @@ public class Main {
             markov.calcVectorEstacionario();
             markov.writeToTxt("src/results/markov.txt");
             markov.writeToCsv("src/results/markov.csv");
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
