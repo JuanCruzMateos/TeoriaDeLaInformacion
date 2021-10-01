@@ -133,14 +133,17 @@ public class Markov {
 
         this.printProbCond();
         System.out.println();
+        if (this.ergodica(this.probCond))
+            System.out.println("Fuente ergodica.\n");
+        else
+            System.out.println("Fuente no ergodica.\n");
         this.printVectorEstacionario();
         System.out.println();
-        System.out.println("Errores al suponiendo fuente de memoria nula:");
+        System.out.println("Errores suponiendo fuente de memoria nula:");
         System.out.println(Arrays.toString(this.vectorErroresEquip()));
         System.out.println("\nEntropia:\nH(S) = " + this.entropia(this.probCond, this.vecEstacionario) + " bits");
         System.setOut(stdout);
     }
-
 
     public void writeToCsv(String outputfile) throws IOException {
         Writer file = new FileWriter(outputfile);
@@ -170,7 +173,7 @@ public class Markov {
 
 
     // Warshall
-    private boolean ergodica(double[][] probs) {
+    public boolean ergodica(double[][] probs) {
         int[][] a = new int[Markov.ESTADOS][Markov.ESTADOS];
         boolean ergo = true;
         int i, j, k;
