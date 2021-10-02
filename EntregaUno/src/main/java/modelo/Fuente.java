@@ -95,17 +95,13 @@ public class Fuente {
     }
 
     public double rendimiento() {
-        return this.entropia() / this.longitudMedia();
+        return this.entropia() / this.longitudMedia() * 100.0;
     }
 
     public double redundancia() {
-        return 1.0 - this.rendimiento();
+        return 100.0 - this.rendimiento();
     }
 
-    // TODO
-    public boolean compacto() {
-        return this.longitudMedia() >= this.entropia();
-    }
 
     public void writeToTxt(String outputfile) throws IOException {
         PrintStream stdout = System.out;

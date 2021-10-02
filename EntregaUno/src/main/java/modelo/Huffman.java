@@ -54,7 +54,35 @@ public class Huffman extends Fuente {
         PrintStream stdout = System.out;
         System.setOut(new PrintStream(filename));
         this.printCodes();
+        System.out.println("\nEntropia:");
+        System.out.println("H(S) = " + this.entropia() + " bits\n");
+        System.out.println("Kraft:");
+        System.out.println("k = " + this.kraft() + "\n");
+        System.out.println("Longitud media:");
+        System.out.println("L = " + this.longitudMedia() + "\n");
+        System.out.println("Rendimiento:");
+        System.out.println("n = " + this.rendimiento() + "\n");
+        System.out.println("Rendundancia:");
+        System.out.println("n = " + this.redundancia());
         System.setOut(stdout);
+    }
+
+    @Override
+    public double kraft() {
+        double suma = 0;
+        for (String key : this.frec.keySet()) {
+            suma += Math.pow(2.0, -1.0 * this.huffcodes.get(key).length());
+        }
+        return suma;
+    }
+
+    @Override
+    public double longitudMedia() {
+        double longitud = 0;
+        for (String key : this.frec.keySet()) {
+            longitud += this.prob.get(key) * this.huffcodes.get(key).length();
+        }
+        return longitud;
     }
 
     public void writeHuffmanToCsv(String filename) throws IOException {

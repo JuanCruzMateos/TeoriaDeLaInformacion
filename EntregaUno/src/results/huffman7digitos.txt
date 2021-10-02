@@ -127,3 +127,18 @@ Palabra         Huffman
 1111101         1100111        
 1111110         1101011        
 1111111         0111101        
+
+Entropia:
+H(S) = 6.9790094546532 bits
+
+Kraft:
+k = 1.0
+
+Longitud media:
+L = 6.996222222222224
+
+Rendimiento:
+n = 99.75397054264012
+
+Rendundancia:
+n = 0.24602945735988158
