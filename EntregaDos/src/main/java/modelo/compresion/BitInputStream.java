@@ -6,6 +6,11 @@ import java.io.IOException;
 
 public class BitInputStream extends BitStream {
     /**
+     * Indice del int actualmente examinado.
+     */
+    protected int ptrToIntArray;
+
+    /**
      * Escribe los bits en archivo
      *
      * @param filename nombre del archivo
@@ -46,8 +51,6 @@ public class BitInputStream extends BitStream {
     public String toString() {
         return "BitInputStream{\n" +
                 "\nintArray=" + intArray +
-                ", \ncurrentBits=" + currentBits +
-                ", \ncurrentBitsSize=" + currentBitsSize +
                 ", \nptrToIntArray=" + ptrToIntArray +
                 ", \nintBitIndex=" + intBitIndex +
                 ", \nlastNumberOfBits=" + lastNumberOfBits +

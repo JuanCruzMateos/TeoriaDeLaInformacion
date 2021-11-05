@@ -6,6 +6,15 @@ import java.io.IOException;
 
 public class BitOutputStream extends BitStream {
     /**
+     * Variable donde acumulo los bits que recibo.
+     */
+    protected int currentBits;
+    /**
+     * Cantidad de bits acumulados en currentBits.
+     */
+    protected int currentBitsSize;
+
+    /**
      * Agrega los bits represantados por la cadena bits.
      *
      * @param bits cadena de bits.
@@ -60,7 +69,6 @@ public class BitOutputStream extends BitStream {
                 "\nintArray=" + intArray +
                 ", \ncurrentBits=" + currentBits +
                 ", \ncurrentBitsSize=" + currentBitsSize +
-                ", \nptrToIntArray=" + ptrToIntArray +
                 ", \nintBitIndex=" + intBitIndex +
                 ", \nlastNumberOfBits=" + lastNumberOfBits +
                 "\n}";
