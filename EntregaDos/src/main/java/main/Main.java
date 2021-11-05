@@ -20,13 +20,13 @@ public class Main {
             huffman.decompress();
             huffman.clearAll();
 
-//            huffman.parseFile(file2, 1);
-//            huffman.crearArbolHuffman();
-//            huffman.generarCodigos();
-//            huffman.writeHuffmanToTxt("HawaiHuf.txt");
-//            huffman.compress();
-//            huffman.decompress();
-//            huffman.clearAll();
+            huffman.parseFile(file2, 1);
+            huffman.crearArbolHuffman();
+            huffman.generarCodigos();
+            huffman.writeHuffmanToTxt("HawaiHuf.txt");
+            huffman.compress();
+            huffman.decompress();
+            huffman.clearAll();
         } catch (IOException e) {
             e.printStackTrace();
         }

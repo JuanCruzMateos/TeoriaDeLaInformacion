@@ -30,7 +30,7 @@ public class BitInputStream extends BitStream {
                 feof = true;
             }
         }
-        System.out.println(this);
+//        System.out.println(this);
     }
 
     public int nextBit() {

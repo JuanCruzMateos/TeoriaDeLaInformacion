@@ -56,7 +56,7 @@ public class BitOutputStream extends BitStream {
         for (Integer num : this.intArray) {
             out.writeInt(num);
         }
-        System.out.println(this);
+//        System.out.println(this);
         out.close();
     }
 
