@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         String file1 = "Argentina.txt";
         String file2 = "Hawai.txt";
-//        String file3 = "imagen.raw";
+        String file3 = "imagen.raw";
 
         Huffman huffman = new Huffman();
         try {
@@ -24,6 +24,14 @@ public class Main {
             huffman.crearArbolHuffman();
             huffman.generarCodigos();
             huffman.writeHuffmanToTxt("HawaiHuf.txt");
+            huffman.compress();
+            huffman.decompress();
+            huffman.clearAll();
+
+            huffman.parseFile(file3, 1);
+            huffman.crearArbolHuffman();
+            huffman.generarCodigos();
+            huffman.writeHuffmanToTxt("imagenHuf.txt");
             huffman.compress();
             huffman.decompress();
             huffman.clearAll();
