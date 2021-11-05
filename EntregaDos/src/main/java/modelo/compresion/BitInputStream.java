@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class BitInputStream extends BitStream {
     /**
-     * Indice del int actualmente examinado.
+     * Indice del byte actualmente examinado.
      */
     protected int ptrToByteArray;
 
