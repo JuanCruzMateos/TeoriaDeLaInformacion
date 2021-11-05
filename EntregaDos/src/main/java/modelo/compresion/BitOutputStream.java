@@ -3,14 +3,8 @@ package modelo.compresion;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class BitOutputStream extends BitStream {
-
-    public BitOutputStream() {
-        super(new ArrayList<>());
-    }
-
     /**
      * Agrega los bits represantados por la cadena bits.
      *

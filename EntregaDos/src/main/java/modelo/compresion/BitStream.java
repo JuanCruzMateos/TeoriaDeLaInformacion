@@ -10,8 +10,8 @@ public abstract class BitStream {
     protected int intBitIndex;
     protected int lastNumberOfBits;
 
-    public BitStream(ArrayList<Integer> intArray) {
-        this.intArray = intArray;
+    public BitStream() {
+        this.intArray = new ArrayList<>();
         this.intBitIndex = Integer.SIZE - 1;
     }
 }
