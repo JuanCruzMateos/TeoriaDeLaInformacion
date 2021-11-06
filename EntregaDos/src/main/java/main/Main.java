@@ -12,13 +12,13 @@ public class Main {
         Huffman huffman = new Huffman();
         ShannonFano shannonFano = new ShannonFano();
         RLC rlc = new RLC();
-        
+
         for (String file : files) {
             try {
                 huffman.parseFile(file, 1);
                 huffman.crearArbolHuffman();
                 huffman.generarCodigos();
-                huffman.writeHuffmanToTxt("ArgentinaHuf.txt");
+                huffman.writeHuffmanToTxt(file.substring(0, file.lastIndexOf('.')) + "HuffCodes.txt");
                 huffman.compress();
                 huffman.decompress();
                 huffman.clearAll();
