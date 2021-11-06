@@ -72,7 +72,6 @@ public class BitOutputStream extends BitStream {
      */
     public void write(String filename) throws IOException {
         FileOutputStream out = new FileOutputStream(filename);
-//        DataOutputStream -> writeInt();
 
         this.endStream();
         out.write(this.lastNumberOfBits);

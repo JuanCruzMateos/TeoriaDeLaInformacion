@@ -12,9 +12,9 @@ import java.util.TreeMap;
 public class Fuente {
     protected static final String RESOURCESPATH = "src" + File.separator + "resources" + File.separator;
     protected static final String RESULTSPATH = "src" + File.separator + "results" + File.separator;
-    protected final TreeMap<String, Integer> frec = new TreeMap<>();
-    protected final TreeMap<String, Double> prob = new TreeMap<>();
-    protected final TreeMap<String, Double> info = new TreeMap<>();
+    protected TreeMap<String, Integer> frec = new TreeMap<>();
+    protected TreeMap<String, Double> prob = new TreeMap<>();
+    protected TreeMap<String, Double> info = new TreeMap<>();
     protected String inputfile;
     protected int digitosPalabra;
 
@@ -22,8 +22,6 @@ public class Fuente {
         Reader reader = new FileReader(RESOURCESPATH + inputfile);
         char[] buffer = new char[digitosPalabra];
         String word;
-        double prob;
-        int total;
 
         this.inputfile = inputfile;
         this.digitosPalabra = digitosPalabra;
@@ -32,8 +30,12 @@ public class Fuente {
             this.frec.put(word, this.frec.getOrDefault(word, 0) + 1);
         }
         reader.close();
+        this.calculcarProbCantInfo();
+    }
 
-        total = this.frec.values().stream().mapToInt(Integer::intValue).sum();
+    public void calculcarProbCantInfo() {
+        int total = this.frec.values().stream().mapToInt(Integer::intValue).sum();
+        double prob;
 
         for (String str : this.frec.keySet()) {
             prob = (double) this.frec.get(str) / total;
@@ -141,7 +143,7 @@ public class Fuente {
         file.close();
     }
 
-    public void clearAll() {
+    protected void clearAll() {
         this.prob.clear();
         this.frec.clear();
         this.info.clear();

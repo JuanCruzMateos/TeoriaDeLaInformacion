@@ -23,8 +23,6 @@ public class BitInputStream extends BitStream {
     public void read(String filename) throws IOException {
         FileInputStream in = new FileInputStream(filename);
         int c;
-//        DataInputStream -> readInt()
-//        boolean feof = false;
 
         this.lastNumberOfBits = in.read();
         while ((c = in.read()) != -1) {
