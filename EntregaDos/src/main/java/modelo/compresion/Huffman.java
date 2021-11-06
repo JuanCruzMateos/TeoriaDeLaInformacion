@@ -119,7 +119,7 @@ public class Huffman extends Fuente {
 
     public void decompress() throws IOException {
         String filename = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".huff";
-        Writer writer = new FileWriter("src/resources/recovery" + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".txt");
+        Writer writer = new FileWriter(Fuente.RESOURCESPATH + "recovery" + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".txt");
         BitInputStream bitInputStream = new BitInputStream();
         Nodo nodo;
         int c;
