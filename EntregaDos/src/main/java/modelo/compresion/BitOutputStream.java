@@ -3,6 +3,11 @@ package modelo.compresion;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * @author Noelia Echeverria
+ * @author Camila Ezama
+ * @author Juan Cruz Mateos
+ */
 public class BitOutputStream extends BitStream {
     /**
      * Variable donde acumulo los bits que recibo.
@@ -22,7 +27,7 @@ public class BitOutputStream extends BitStream {
         int i = 0;
         while (i < bits.length()) {
             while (i < bits.length() && this.currentBitsSize < Byte.SIZE) {
-                this.currentBits = (byte) ((this.currentBits << 1) | bits.charAt(i) & 0x1);
+                this.currentBits = (byte) ((this.currentBits << 1) | bits.charAt(i) - '0');
                 this.currentBitsSize += 1;
                 i += 1;
             }
@@ -32,6 +37,21 @@ public class BitOutputStream extends BitStream {
                 this.currentBitsSize = 0;
             }
         }
+    }
+
+    /**
+     * Agerga un unico bit al stream.
+     *
+     * @param bit bit a agregar
+     */
+    public void addBit(byte bit) {
+        if (this.currentBitsSize == Byte.SIZE) {
+            this.byteArray.add(this.currentBits);
+            this.currentBitsSize = 0;
+            this.currentBits = 0;
+        }
+        this.currentBits = (byte) ((this.currentBits << 1) | (bit & 0x1));
+        this.currentBitsSize += 1;
     }
 
     /**
@@ -51,8 +71,8 @@ public class BitOutputStream extends BitStream {
      * @throws IOException en caso de haber algun error en la escritura
      */
     public void write(String filename) throws IOException {
-//        DataOutputStream out = new DataOutputStream(new FileOutputStream(filename));  out.writeInt();
         FileOutputStream out = new FileOutputStream(filename);
+//        DataOutputStream -> writeInt();
 
         this.endStream();
         out.write(this.lastNumberOfBits);

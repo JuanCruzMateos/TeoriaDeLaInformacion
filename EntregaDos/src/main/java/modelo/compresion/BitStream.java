@@ -2,6 +2,11 @@ package modelo.compresion;
 
 import java.util.ArrayList;
 
+/**
+ * @author Noelia Echeverria
+ * @author Camila Ezama
+ * @author Juan Cruz Mateos
+ */
 public abstract class BitStream {
     /**
      * Lista donde acumulo los bits que recibo.
