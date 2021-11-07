@@ -10,8 +10,8 @@ import java.util.TreeMap;
  */
 
 public class Fuente {
-    protected static final String RESOURCESPATH = "src" + File.separator + "resources" + File.separator;
-    protected static final String RESULTSPATH = "src" + File.separator + "results" + File.separator;
+    public static final String RESOURCESPATH = "src" + File.separator + "resources" + File.separator;
+    public static final String RESULTSPATH = "src" + File.separator + "results" + File.separator;
     protected TreeMap<String, Integer> frec = new TreeMap<>();
     protected TreeMap<String, Double> prob = new TreeMap<>();
     protected TreeMap<String, Double> info = new TreeMap<>();

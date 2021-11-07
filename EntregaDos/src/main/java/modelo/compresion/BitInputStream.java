@@ -17,18 +17,16 @@ public class BitInputStream extends BitStream {
     /**
      * Crea un stream de bits leyendolos del archivo pasado por parametro.
      *
-     * @param filename nombre del archivo
+     * @param input nombre del archivo
      * @throws IOException en caso de haber algun error en la escritura
      */
-    public void read(String filename) throws IOException {
-        FileInputStream in = new FileInputStream(filename);
+    public void readFrom(FileInputStream input) throws IOException {
         int c;
-
-        this.lastNumberOfBits = in.read();
-        while ((c = in.read()) != -1) {
+        this.lastNumberOfBits = input.read();
+        while ((c = input.read()) != -1) {
             this.byteArray.add((byte) c);
         }
-        in.close();
+        input.close();
     }
 
     /**

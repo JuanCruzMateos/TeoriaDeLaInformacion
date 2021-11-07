@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         String[] files = {"Argentina.txt", "Hawai.txt", "imagen.raw"};
         Huffman huffman = new Huffman();
-        ShannonFano shannonFano = new ShannonFano();
+//        ShannonFano shannonFano = new ShannonFano();
         RLC rlc = new RLC();
 
         for (String file : files) {
@@ -22,6 +22,8 @@ public class Main {
                 huffman.compress();
                 huffman.decompress();
                 huffman.clearAll();
+                rlc.encode(file);
+                rlc.decode(file.substring(0, file.lastIndexOf('.')) + ".rlc");
             } catch (IOException e) {
                 e.printStackTrace();
             }

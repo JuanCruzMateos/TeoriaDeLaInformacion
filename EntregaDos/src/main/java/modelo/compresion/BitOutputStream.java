@@ -67,11 +67,10 @@ public class BitOutputStream extends BitStream {
     /**
      * Escribe los bits en archivo
      *
-     * @param filename nombre del archivo
+     * @param out
      * @throws IOException en caso de haber algun error en la escritura
      */
-    public void write(String filename) throws IOException {
-        FileOutputStream out = new FileOutputStream(filename);
+    public void writeTo(FileOutputStream out) throws IOException {
 
         this.endStream();
         out.write(this.lastNumberOfBits);

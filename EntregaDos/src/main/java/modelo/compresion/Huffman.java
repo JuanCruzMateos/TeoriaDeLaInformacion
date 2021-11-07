@@ -109,7 +109,7 @@ public class Huffman extends Fuente {
             String huffcode = this.huffcodes.get(word);
             bitOutputStream.addBits(huffcode);
         }
-        bitOutputStream.write(newfile);
+        bitOutputStream.writeTo(new FileOutputStream(newfile));
         reader.close();
     }
 
@@ -119,12 +119,12 @@ public class Huffman extends Fuente {
 
     public void decompress() throws IOException {
         String filename = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".huff";
-        Writer writer = new FileWriter(Fuente.RESOURCESPATH + "recovery" + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".txt");
+        Writer writer = new FileWriter(Fuente.RESOURCESPATH + "recoveryHuffman" + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".txt");
         BitInputStream bitInputStream = new BitInputStream();
         Nodo nodo;
         int c;
 
-        bitInputStream.read(filename);
+        bitInputStream.readFrom(new FileInputStream(filename));
         while ((c = bitInputStream.nextBit()) != -1) {
             nodo = this.root;
             nodo = c == 0 ? nodo.izq : nodo.der;
