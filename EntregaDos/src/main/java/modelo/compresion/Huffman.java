@@ -12,11 +12,11 @@ import java.util.TreeMap;
  * @author Juan Cruz Mateos
  */
 
-public class Huffman extends Fuente {
+public class Huffman extends Fuente implements Compressor {
     protected final TreeMap<String, String> huffcodes = new TreeMap<>();
     protected Nodo root;
 
-    public void crearArbolHuffman() {
+    public void generarArbolCodificacion() {
         PriorityQueue<Nodo> pq = new PriorityQueue<>();
         Nodo hijoIzq, hijoDer, padre;
 
@@ -52,7 +52,8 @@ public class Huffman extends Fuente {
         }
     }
 
-    public void writeHuffmanToTxt(String filename) throws FileNotFoundException {
+    @Override
+    public void writeToTxt(String filename) throws IOException {
         PrintStream stdout = System.out;
         System.setOut(new PrintStream(RESULTSPATH + filename));
         this.printCodes();
@@ -87,7 +88,7 @@ public class Huffman extends Fuente {
         return longitud;
     }
 
-    public void writeHuffmanToCsv(String filename) throws IOException {
+    public void writeToCsv(String filename) throws IOException {
         Writer file = new FileWriter(RESULTSPATH + filename);
 
         file.write(String.join(",", "Probabilidad", "Codigo", "Huffman\n"));
@@ -100,21 +101,17 @@ public class Huffman extends Fuente {
     public void compress() throws IOException {
         String newfile = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".huff";
         Reader reader = new FileReader(RESOURCESPATH + this.inputfile);
-        char[] buffer = new char[this.digitosPalabra];
         BitOutputStream bitOutputStream = new BitOutputStream();
         String word;
+        int caracter;
 
-        while (reader.read(buffer) != -1) {
-            word = new String(buffer);
+        while ((caracter = reader.read()) != -1) {
+            word = Character.toString((char) caracter);
             String huffcode = this.huffcodes.get(word);
             bitOutputStream.addBits(huffcode);
         }
         bitOutputStream.writeTo(new FileOutputStream(newfile));
         reader.close();
-    }
-
-    public String getHuffmanCode(String word) {
-        return this.huffcodes.get(word);
     }
 
     public void decompress() throws IOException {
@@ -136,10 +133,6 @@ public class Huffman extends Fuente {
         writer.close();
     }
 
-    public TreeMap<String, String> getHuffcodes() {
-        return huffcodes;
-    }
-
     @Override
     public void clearAll() {
         super.clearAll();
@@ -147,31 +140,12 @@ public class Huffman extends Fuente {
         this.huffcodes.clear();
     }
 
-    private static class Nodo implements Comparable<Nodo> {
-        private final String simb;
-        private final double prob;
-        private final Nodo izq;
-        private final Nodo der;
-
-        public Nodo(String simb, double prob, Nodo izq, Nodo der) {
-            this.simb = simb;
-            this.prob = prob;
-            this.izq = izq;
-            this.der = der;
+    @Override
+    public String toString() {
+        StringBuilder huff = new StringBuilder();
+        for (String s : this.huffcodes.keySet()) {
+            huff.append(String.format("word=%s, code=%s\n", s, this.huffcodes.get(s)));
         }
-
-        public boolean isHoja() {
-            return this.izq == null && this.der == null;
-        }
-
-        @Override
-        public int compareTo(Nodo o) {
-            return Double.compare(this.prob, o.prob);
-        }
-
-        @Override
-        public String toString() {
-            return "{ " + this.prob + " }";
-        }
+        return huff.toString();
     }
 }

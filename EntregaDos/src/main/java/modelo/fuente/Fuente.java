@@ -16,30 +16,38 @@ public class Fuente {
     protected TreeMap<String, Double> prob = new TreeMap<>();
     protected TreeMap<String, Double> info = new TreeMap<>();
     protected String inputfile;
-    protected int digitosPalabra;
 
-    public void parseFile(String inputfile, int digitosPalabra) throws IOException {
+    public void parseFile(String inputfile) throws IOException {
         Reader reader = new FileReader(RESOURCESPATH + inputfile);
-        char[] buffer = new char[digitosPalabra];
+        int caracter;
         String word;
 
         this.inputfile = inputfile;
-        this.digitosPalabra = digitosPalabra;
-        while (reader.read(buffer) != -1) {
-            word = new String(buffer);
+        while ((caracter = reader.read()) != -1) {
+            word = Character.toString((char) caracter);
             this.frec.put(word, this.frec.getOrDefault(word, 0) + 1);
         }
         reader.close();
-        this.calculcarProbCantInfo();
+        this.calculcarProbabilidades();
+        this.calculcarCantidadDeInfo();
     }
 
-    public void calculcarProbCantInfo() {
+    public void calculcarProbabilidades() {
         int total = this.frec.values().stream().mapToInt(Integer::intValue).sum();
         double prob;
 
         for (String str : this.frec.keySet()) {
             prob = (double) this.frec.get(str) / total;
             this.prob.put(str, prob);
+        }
+    }
+
+    public void calculcarCantidadDeInfo() {
+        int total = this.frec.values().stream().mapToInt(Integer::intValue).sum();
+        double prob;
+
+        for (String str : this.frec.keySet()) {
+            prob = (double) this.frec.get(str) / total;
             this.info.put(str, cantidadDeInformacion(prob));
         }
     }
@@ -82,6 +90,7 @@ public class Fuente {
         return h;
     }
 
+    // TODO sin usar
     public double kraft() {
         double suma = 0;
         for (String key : this.frec.keySet()) {
@@ -90,6 +99,7 @@ public class Fuente {
         return suma;
     }
 
+    // TODO hacer abtract
     public double longitudMedia() {
         double longitud = 0;
         for (String key : this.frec.keySet()) {
@@ -148,14 +158,12 @@ public class Fuente {
         this.frec.clear();
         this.info.clear();
         this.inputfile = null;
-        this.digitosPalabra = 0;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Escenario: palabras ").append(this.digitosPalabra).append(" digitos.\n").append("\n");
         sb.append(String.format("%-15s%-15s%-20s%-20s\n", "Palabra", "Frecuencia", "Probabilidad", "Cant. informacion"));
         sb.append(new String(new char[67]).replace('\0', '-')).append("\n");
         for (String palabra : this.prob.keySet()) {

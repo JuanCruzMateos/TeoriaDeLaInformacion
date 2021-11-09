@@ -1,7 +1,7 @@
 package modelo.compresion;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * @author Noelia Echeverria
@@ -40,40 +40,27 @@ public class BitOutputStream extends BitStream {
     }
 
     /**
-     * Agerga un unico bit al stream.
-     *
-     * @param bit bit a agregar
-     */
-    public void addBit(byte bit) {
-        if (this.currentBitsSize == Byte.SIZE) {
-            this.byteArray.add(this.currentBits);
-            this.currentBitsSize = 0;
-            this.currentBits = 0;
-        }
-        this.currentBits = (byte) ((this.currentBits << 1) | (bit & 0x1));
-        this.currentBitsSize += 1;
-    }
-
-    /**
      * Finaliza el stream completando con 1 los bits del ultimo byte.
      */
     private void endStream() {
-        this.lastNumberOfBits = this.currentBitsSize;
-        int faltantes = Byte.SIZE - this.currentBitsSize;
-        String f = new String(new char[faltantes]).replace('\0', '1');
-        this.addBits(f);
+        this.lastValidBit = this.currentBitsSize;
+        if (this.currentBitsSize != 0) {
+            int faltantes = Byte.SIZE - this.currentBitsSize;
+            String f = new String(new char[faltantes]).replace('\0', '1');
+            this.addBits(f);
+        }
     }
 
     /**
      * Escribe los bits en archivo
      *
-     * @param out
+     * @param out stream
      * @throws IOException en caso de haber algun error en la escritura
      */
-    public void writeTo(FileOutputStream out) throws IOException {
+    public void writeTo(OutputStream out) throws IOException {
 
         this.endStream();
-        out.write(this.lastNumberOfBits);
+        out.write(this.lastValidBit);
         for (Byte num : this.byteArray) {
             out.write(num);
         }
@@ -86,8 +73,7 @@ public class BitOutputStream extends BitStream {
                 "\ncurrentBits=" + currentBits +
                 ", \ncurrentBitsSize=" + currentBitsSize +
                 ", \nbyteArray=" + byteArray +
-                ", \nlastNumberOfBits=" + lastNumberOfBits +
-                ", \nbyteBitIndex=" + byteBitIndex +
+                ", \nlastNumberOfBits=" + lastValidBit +
                 "\n}";
     }
 }

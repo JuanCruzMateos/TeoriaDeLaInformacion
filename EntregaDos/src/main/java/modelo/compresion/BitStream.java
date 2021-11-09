@@ -14,16 +14,11 @@ public abstract class BitStream {
      */
     protected final ArrayList<Byte> byteArray;
     /**
-     * Cantidad de bits validas del ultimo byte de la lista.
+     * Indice del ultimo bit valido del ultimo byte.
      */
-    protected int lastNumberOfBits;
-    /**
-     * Posicion del bit del byte actualmente examinado.
-     */
-    protected int byteBitIndex;
+    protected int lastValidBit;
 
     public BitStream() {
         this.byteArray = new ArrayList<>();
-        this.byteBitIndex = Byte.SIZE - 1;
     }
 }

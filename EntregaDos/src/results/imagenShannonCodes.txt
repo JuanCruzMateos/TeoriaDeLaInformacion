@@ -1,0 +1,27 @@
+Palabra         ShannonFano    
+
+               10             
+               11             
+0               0011           
+1               000011         
+2               000010         
+3               000001         
+4               0001           
+5               000000         
+6               01             
+7               0010           
+
+Entropia:
+H(S) = 1.94228134457014 bits
+
+Kraft:
+k = 1.0
+
+Longitud media:
+L = 2.138227425769767
+
+Rendimiento:
+n = 90.83605051370594
+
+Rendundancia:
+n = 9.163949486294058

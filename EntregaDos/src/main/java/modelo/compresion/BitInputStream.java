@@ -1,7 +1,7 @@
 package modelo.compresion;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author Noelia Echeverria
@@ -13,6 +13,14 @@ public class BitInputStream extends BitStream {
      * Indice del byte actualmente examinado por nextBit().
      */
     protected int ptrToByteArray;
+    /**
+     * Posicion del bit del byte actualmente examinado.
+     */
+    protected int byteBitIndex;
+
+    public BitInputStream() {
+        this.byteBitIndex = Byte.SIZE - 1;
+    }
 
     /**
      * Crea un stream de bits leyendolos del archivo pasado por parametro.
@@ -20,9 +28,9 @@ public class BitInputStream extends BitStream {
      * @param input nombre del archivo
      * @throws IOException en caso de haber algun error en la escritura
      */
-    public void readFrom(FileInputStream input) throws IOException {
+    public void readFrom(InputStream input) throws IOException {
         int c;
-        this.lastNumberOfBits = input.read();
+        this.lastValidBit = input.read();
         while ((c = input.read()) != -1) {
             this.byteArray.add((byte) c);
         }
@@ -55,7 +63,7 @@ public class BitInputStream extends BitStream {
      * @return true si estoy en la ultima entrada de la lista y ya lei el ultimo bit valido.
      */
     private boolean endOfStream() {
-        return this.ptrToByteArray == this.byteArray.size() - 1 && Byte.SIZE - this.lastNumberOfBits > this.byteBitIndex;
+        return this.ptrToByteArray == this.byteArray.size() - 1 && Byte.SIZE - this.lastValidBit > this.byteBitIndex;
     }
 
     @Override
@@ -63,7 +71,7 @@ public class BitInputStream extends BitStream {
         return "BitInputStream{" +
                 "\nptrToByteArray=" + ptrToByteArray +
                 ", \nbyteArray=" + byteArray +
-                ", \nlastNumberOfBits=" + lastNumberOfBits +
+                ", \nlastNumberOfBits=" + lastValidBit +
                 ", \nbyteBitIndex=" + byteBitIndex +
                 "\n}";
     }
