@@ -48,18 +48,24 @@ public class ShannonFano extends Fuente implements Compressor {
         }
     }
 
-    public void printCodes() {
-        System.out.printf("%-15s %-15s\n", "Palabra", "ShannonFano");
-        for (String s : this.shannonCodes.keySet()) {
-            System.out.printf("%-15s %-15s%n", s, this.shannonCodes.get(s));
+    public String getDetalleCodificacion() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("%-15s%-15s%-20s%-20s%-20s\n", "Simbolo", "Frecuencia", "Probabilidad", "Cant. informacion", "Codigo Shannon"));
+        sb.append(new String(new char[85]).replace('\0', '-')).append("\n");
+        for (String palabra : this.prob.keySet()) {
+            sb.append(String.format("%-15s%-15d%-20.15f%-20.15f%-20s\n", Fuente.printable(palabra), this.frec.get(palabra), this.prob.get(palabra), this.info.get(palabra), this.shannonCodes.get(palabra)));
         }
+        sb.append(new String(new char[85]).replace('\0', '-')).append("\n");
+        sb.append(String.format("%-15s%-15s%-20s%-20s\n", this.prob.keySet().size(), this.frec.values().stream().mapToInt(Integer::intValue).sum(), this.prob.values().stream().mapToDouble(Double::doubleValue).sum(), ""));
+        return sb.toString();
     }
 
     @Override
     public void writeToTxt(String filename) throws IOException {
         PrintStream stdout = System.out;
         System.setOut(new PrintStream(RESULTSPATH + filename));
-        this.printCodes();
+        System.out.println(this.getDetalleCodificacion());
         System.out.println("\nEntropia:");
         System.out.println("H(S) = " + this.entropia() + " bits\n");
         System.out.println("Kraft:");

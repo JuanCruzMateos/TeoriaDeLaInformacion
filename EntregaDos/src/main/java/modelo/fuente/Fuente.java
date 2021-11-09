@@ -20,6 +20,15 @@ public abstract class Fuente {
     protected TreeMap<String, Double> info = new TreeMap<>();
     protected String inputfile;
 
+    public static String printable(String simbolo) {
+        if (simbolo.equals("\n"))
+            return "'\\n'";
+        else if (simbolo.equals(" "))
+            return "' '";
+        else
+            return simbolo;
+    }
+
     public void parseFile(String inputfile) throws IOException {
         Reader reader = new FileReader(RESOURCESPATH + inputfile);
         int caracter;
@@ -126,19 +135,5 @@ public abstract class Fuente {
         this.frec.clear();
         this.info.clear();
         this.inputfile = null;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(String.format("%-15s%-15s%-20s%-20s\n", "Palabra", "Frecuencia", "Probabilidad", "Cant. informacion"));
-        sb.append(new String(new char[67]).replace('\0', '-')).append("\n");
-        for (String palabra : this.prob.keySet()) {
-            sb.append(String.format("%-15s%-15d%-20.15f%-20.15f\n", palabra, this.frec.get(palabra), this.prob.get(palabra), this.info.get(palabra)));
-        }
-        sb.append(new String(new char[67]).replace('\0', '-')).append("\n");
-        sb.append(String.format("%-15s%-15s%-20s%-20s\n", this.prob.keySet().size(), this.frec.values().stream().mapToInt(Integer::intValue).sum(), this.prob.values().stream().mapToDouble(Double::doubleValue).sum(), ""));
-        return sb.toString();
     }
 }
