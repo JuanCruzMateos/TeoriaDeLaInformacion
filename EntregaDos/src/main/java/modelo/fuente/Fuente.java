@@ -1,6 +1,9 @@
 package modelo.fuente;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.TreeMap;
 
 /**
@@ -9,7 +12,7 @@ import java.util.TreeMap;
  * @author Juan Cruz Mateos
  */
 
-public class Fuente {
+public abstract class Fuente {
     public static final String RESOURCESPATH = "src" + File.separator + "resources" + File.separator;
     public static final String RESULTSPATH = "src" + File.separator + "results" + File.separator;
     protected TreeMap<String, Integer> frec = new TreeMap<>();
@@ -90,23 +93,25 @@ public class Fuente {
         return h;
     }
 
-    // TODO sin usar
-    public double kraft() {
-        double suma = 0;
-        for (String key : this.frec.keySet()) {
-            suma += Math.pow(2.0, -1.0 * key.length());
-        }
-        return suma;
-    }
+    public abstract double kraft();
 
-    // TODO hacer abtract
-    public double longitudMedia() {
-        double longitud = 0;
-        for (String key : this.frec.keySet()) {
-            longitud += this.prob.get(key) * key.length();
-        }
-        return longitud;
-    }
+    public abstract double longitudMedia();
+
+//    public double kraft() {
+//        double suma = 0;
+//        for (String key : this.frec.keySet()) {
+//            suma += Math.pow(2.0, -1.0 * key.length());
+//        }
+//        return suma;
+//    }
+
+//    public double longitudMedia() {
+//        double longitud = 0;
+//        for (String key : this.frec.keySet()) {
+//            longitud += this.prob.get(key) * key.length();
+//        }
+//        return longitud;
+//    }
 
     public double rendimiento() {
         return this.entropia() / this.longitudMedia() * 100.0;
@@ -114,43 +119,6 @@ public class Fuente {
 
     public double redundancia() {
         return 100.0 - this.rendimiento();
-    }
-
-    public void writeToTxt(String outputfile) throws IOException {
-        PrintStream stdout = System.out;
-        System.setOut(new PrintStream(RESULTSPATH + outputfile));
-
-        System.out.println(this);
-        System.out.println("Entropia:");
-        System.out.println("H(S) = " + this.entropia() + " bits\n");
-        System.out.println("Kraft:");
-        System.out.println("k = " + this.kraft() + "\n");
-        System.out.println("Longitud media:");
-        System.out.println("L = " + this.longitudMedia() + "\n");
-        System.out.println("Rendimiento:");
-        System.out.println("n = " + this.rendimiento() + "\n");
-        System.out.println("Rendundancia:");
-        System.out.println("n = " + this.redundancia());
-        System.setOut(stdout);
-    }
-
-    public void writeToCsv(String outputfile) throws IOException {
-        Writer file = new FileWriter(RESULTSPATH + outputfile);
-        int total = this.frec.values().stream().mapToInt(Integer::intValue).sum();
-        double suma = this.prob.values().stream().mapToDouble(Double::doubleValue).sum();
-
-        file.write(String.join(",", "Palabras", "Frecuencia", "Probabilidad", "Cant. Informacion", "\n"));
-        for (String key : this.frec.keySet()) {
-            file.write(String.join(",", key, Integer.toString(this.frec.get(key)), Double.toString(this.prob.get(key)),
-                    Double.toString(this.info.get(key)), "\n"));
-        }
-        file.write(String.join(",", " ", Integer.toString(total), Double.toString(suma), " \n"));
-        file.write("\n");
-        file.write(String.join(",", "Entropia H(S)", Double.toString(this.entropia()), "\n"));
-        file.write(String.join(",", "Kraft", Double.toString(this.kraft()), "\n"));
-        file.write(String.join(",", "Rendimiento", Double.toString(this.rendimiento()), "\n"));
-        file.write(String.join(",", "Redundancia", Double.toString(this.redundancia()), "\n"));
-        file.close();
     }
 
     protected void clearAll() {

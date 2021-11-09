@@ -11,6 +11,7 @@ public class ShannonFano extends Fuente implements Compressor {
     protected final TreeMap<String, String> shannonCodes = new TreeMap<>();
     private NodoShannonFano root;
 
+    @Override
     public void generarArbolCodificacion() {
         ArrayList<Nodo> nodos = new ArrayList<>();
         for (String s : this.prob.keySet()) {
@@ -30,6 +31,7 @@ public class ShannonFano extends Fuente implements Compressor {
         }
     }
 
+    @Override
     public void generarCodigos() {
         this.encode(this.root, "");
     }
@@ -50,6 +52,7 @@ public class ShannonFano extends Fuente implements Compressor {
         }
     }
 
+    @Override
     public void writeToTxt(String filename) throws FileNotFoundException {
         PrintStream stdout = System.out;
         System.setOut(new PrintStream(RESULTSPATH + filename));
@@ -85,6 +88,7 @@ public class ShannonFano extends Fuente implements Compressor {
         return longitud;
     }
 
+    @Override
     public void writeToCsv(String filename) throws IOException {
         Writer file = new FileWriter(RESULTSPATH + filename);
 
@@ -95,6 +99,7 @@ public class ShannonFano extends Fuente implements Compressor {
         file.close();
     }
 
+    @Override
     public void compress() throws IOException {
         String newfile = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".fan";
         Reader reader = new FileReader(RESOURCESPATH + this.inputfile);
@@ -111,6 +116,7 @@ public class ShannonFano extends Fuente implements Compressor {
         reader.close();
     }
 
+    @Override
     public void decompress() throws IOException {
         String filename = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".fan";
         Writer writer = new FileWriter(Fuente.RESOURCESPATH + "recoveryShannon" + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".txt");

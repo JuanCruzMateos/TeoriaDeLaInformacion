@@ -31,36 +31,36 @@ public class Main {
                 shannonFano.decompress();
                 shannonFano.clearAll();
 
-                rlc.encode(file, true);
+                rlc.encode(file, true, file.equals("imagen.raw"));
                 rlc.decode(file.substring(0, file.lastIndexOf('.')) + ".rlc");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        try {
-            String file = "test.txt";
-
-            huffman.parseFile(file);
-            huffman.generarArbolCodificacion();
-            huffman.generarCodigos();
-            huffman.writeToTxt(file.substring(0, file.lastIndexOf('.')) + "HuffCodes.txt");
-            huffman.compress();
-            huffman.decompress();
-            huffman.clearAll();
-
-            shannonFano.parseFile(file);
-            shannonFano.generarArbolCodificacion();
-            shannonFano.generarCodigos();
-            shannonFano.writeToTxt(file.substring(0, file.lastIndexOf('.')) + "ShannCodes.txt");
-            shannonFano.compress();
-            shannonFano.decompress();
-            shannonFano.clearAll();
-
-            rlc.encode(file, true);
-            rlc.decode(file.substring(0, file.lastIndexOf('.')) + ".rlc");
-        } catch (IOException e) {
-            System.out.println("Error");
-        }
+//        try {
+//            String file = "test.txt";
+//
+//            huffman.parseFile(file);
+//            huffman.generarArbolCodificacion();
+//            huffman.generarCodigos();
+//            huffman.writeToTxt(file.substring(0, file.lastIndexOf('.')) + "HuffCodes.txt");
+//            huffman.compress();
+//            huffman.decompress();
+//            huffman.clearAll();
+//
+//            shannonFano.parseFile(file);
+//            shannonFano.generarArbolCodificacion();
+//            shannonFano.generarCodigos();
+//            shannonFano.writeToTxt(file.substring(0, file.lastIndexOf('.')) + "ShannCodes.txt");
+//            shannonFano.compress();
+//            shannonFano.decompress();
+//            shannonFano.clearAll();
+//
+//            rlc.encode(file, true, false);
+//            rlc.decode(file.substring(0, file.lastIndexOf('.')) + ".rlc");
+//        } catch (IOException e) {
+//            System.out.println("Error");
+//        }
     }
 }

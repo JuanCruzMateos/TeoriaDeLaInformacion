@@ -59,8 +59,6 @@ public class NodoShannonFano {
 
     @Override
     public String toString() {
-        return "NodoShannonFano{" +
-                "nodos=" + nodos +
-                '}';
+        return "NodoShannonFano{" + nodos + '}';
     }
 }

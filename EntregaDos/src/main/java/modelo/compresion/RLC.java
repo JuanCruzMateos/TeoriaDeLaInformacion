@@ -5,7 +5,7 @@ import modelo.fuente.Fuente;
 import java.io.*;
 
 public class RLC {
-    public void encode(String filename, boolean generateTxtFile) throws IOException {
+    public void encode(String filename, boolean generateTxtFile, boolean skipNewLine) throws IOException {
         ByteArrayOutputStream encodebytes = new ByteArrayOutputStream();
         Reader in = new FileReader(Fuente.RESOURCESPATH + filename);
         Writer out = null;

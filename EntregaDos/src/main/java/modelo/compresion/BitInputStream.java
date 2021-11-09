@@ -63,7 +63,7 @@ public class BitInputStream extends BitStream {
      * @return true si estoy en la ultima entrada de la lista y ya lei el ultimo bit valido.
      */
     private boolean endOfStream() {
-        return this.ptrToByteArray == this.byteArray.size() - 1 && Byte.SIZE - this.lastValidBit > this.byteBitIndex;
+        return this.ptrToByteArray == this.byteArray.size() - 1 && this.lastValidBit > this.byteBitIndex;
     }
 
     @Override

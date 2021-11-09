@@ -11,11 +11,11 @@ import java.util.TreeMap;
  * @author Camila Ezama
  * @author Juan Cruz Mateos
  */
-
 public class Huffman extends Fuente implements Compressor {
     protected final TreeMap<String, String> huffcodes = new TreeMap<>();
     protected Nodo root;
 
+    @Override
     public void generarArbolCodificacion() {
         PriorityQueue<Nodo> pq = new PriorityQueue<>();
         Nodo hijoIzq, hijoDer, padre;
@@ -32,6 +32,7 @@ public class Huffman extends Fuente implements Compressor {
         this.root = pq.poll();
     }
 
+    @Override
     public void generarCodigos() {
         this.encode(this.root, "");
     }
@@ -88,6 +89,7 @@ public class Huffman extends Fuente implements Compressor {
         return longitud;
     }
 
+    @Override
     public void writeToCsv(String filename) throws IOException {
         Writer file = new FileWriter(RESULTSPATH + filename);
 
@@ -98,6 +100,7 @@ public class Huffman extends Fuente implements Compressor {
         file.close();
     }
 
+    @Override
     public void compress() throws IOException {
         String newfile = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".huff";
         Reader reader = new FileReader(RESOURCESPATH + this.inputfile);
@@ -114,6 +117,7 @@ public class Huffman extends Fuente implements Compressor {
         reader.close();
     }
 
+    @Override
     public void decompress() throws IOException {
         String filename = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".huff";
         Writer writer = new FileWriter(Fuente.RESOURCESPATH + "recoveryHuffman" + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".txt");

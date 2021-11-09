@@ -43,8 +43,8 @@ public class BitOutputStream extends BitStream {
      * Finaliza el stream completando con 1 los bits del ultimo byte.
      */
     private void endStream() {
-        this.lastValidBit = this.currentBitsSize;
-        if (this.currentBitsSize != 0) {
+        this.lastValidBit = this.currentBitsSize == 0 ? 0 : Byte.SIZE - this.currentBitsSize;
+        if (this.currentBitsSize != 0) { // si 0 => el ultimo byte esta completo
             int faltantes = Byte.SIZE - this.currentBitsSize;
             String f = new String(new char[faltantes]).replace('\0', '1');
             this.addBits(f);

@@ -14,7 +14,7 @@ public abstract class BitStream {
      */
     protected final ArrayList<Byte> byteArray;
     /**
-     * Indice del ultimo bit valido del ultimo byte.
+     * Indice del ultimo bit valido del ultimo byte en el intervalo [0,7].
      */
     protected int lastValidBit;
 
