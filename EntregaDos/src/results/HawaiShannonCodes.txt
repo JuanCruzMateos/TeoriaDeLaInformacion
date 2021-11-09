@@ -74,3 +74,5 @@ n = 97.41655358919424
 
 Rendundancia:
 n = 2.583446410805763
+
+Tasa de compresion = 1

@@ -25,3 +25,5 @@ n = 91.3899368234534
 
 Rendundancia:
 n = 8.610063176546603
+
+Tasa de compresion = 3

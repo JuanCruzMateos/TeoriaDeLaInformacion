@@ -18,17 +18,17 @@ public class Main {
                 huffman.parseFile(file);
                 huffman.generarArbolCodificacion();
                 huffman.generarCodigos();
-                huffman.writeToTxt(file.substring(0, file.lastIndexOf('.')) + "HuffCodes.txt");
                 huffman.compress();
                 huffman.decompress();
+                huffman.writeToTxt(file.substring(0, file.lastIndexOf('.')) + "HuffCodes.txt");
                 huffman.clearAll();
 
                 shannonFano.parseFile(file);
                 shannonFano.generarArbolCodificacion();
                 shannonFano.generarCodigos();
-                shannonFano.writeToTxt(file.substring(0, file.lastIndexOf('.')) + "ShannonCodes.txt");
                 shannonFano.compress();
                 shannonFano.decompress();
+                shannonFano.writeToTxt(file.substring(0, file.lastIndexOf('.')) + "ShannonCodes.txt");
                 shannonFano.clearAll();
 
                 rlc.encode(file, true, file.equals("imagen.raw"));

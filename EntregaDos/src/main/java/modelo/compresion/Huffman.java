@@ -3,6 +3,8 @@ package modelo.compresion;
 import modelo.fuente.Fuente;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.PriorityQueue;
 import java.util.TreeMap;
 
@@ -12,6 +14,7 @@ import java.util.TreeMap;
  * @author Juan Cruz Mateos
  */
 public class Huffman extends Fuente implements Compressor {
+    protected static final String EXTENSION = ".huff";
     protected final TreeMap<String, String> huffcodes = new TreeMap<>();
     protected Nodo root;
 
@@ -67,7 +70,8 @@ public class Huffman extends Fuente implements Compressor {
         System.out.println("Rendimiento:");
         System.out.println("n = " + this.rendimiento() + "\n");
         System.out.println("Rendundancia:");
-        System.out.println("n = " + this.redundancia());
+        System.out.println("n = " + this.redundancia() + "\n");
+        System.out.println("Tasa de compresion = " + this.getTasaDeCompresion());
         System.setOut(stdout);
     }
 
@@ -102,7 +106,7 @@ public class Huffman extends Fuente implements Compressor {
 
     @Override
     public void compress() throws IOException {
-        String newfile = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".huff";
+        String newfile = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + EXTENSION;
         Reader reader = new FileReader(RESOURCESPATH + this.inputfile);
         BitOutputStream bitOutputStream = new BitOutputStream();
         String word;
@@ -118,8 +122,18 @@ public class Huffman extends Fuente implements Compressor {
     }
 
     @Override
+    public long getTasaDeCompresion() throws IOException {
+        String originalFile = RESOURCESPATH + this.inputfile;
+        String compressdFile = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + EXTENSION;
+
+        long sizeOriginal = Files.size(Paths.get(originalFile));
+        long sizeComprimido = Files.size(Paths.get(compressdFile));
+        return sizeOriginal / sizeComprimido;
+    }
+
+    @Override
     public void decompress() throws IOException {
-        String filename = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".huff";
+        String filename = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + EXTENSION;
         Writer writer = new FileWriter(Fuente.RESOURCESPATH + "recoveryHuffman" + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".txt");
         BitInputStream bitInputStream = new BitInputStream();
         Nodo nodo;
