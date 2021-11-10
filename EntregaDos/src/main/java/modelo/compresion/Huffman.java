@@ -118,9 +118,9 @@ public class Huffman extends Fuente implements Compressor {
         String word;
         int caracter;
 
-        while ((caracter = reader.read()) != -1) {
-            word = Character.toString((char) caracter);
-            String huffcode = this.huffcodes.get(word);
+        while ((caracter = reader.read()) != -1) {      // lee
+            word = Character.toString((char) caracter);  // caracter: h
+            String huffcode = this.huffcodes.get(word);  // h -> '10011'
             bitOutputStream.addBits(huffcode);
         }
         bitOutputStream.writeTo(new FileOutputStream(newfile));
@@ -128,13 +128,13 @@ public class Huffman extends Fuente implements Compressor {
     }
 
     @Override
-    public long getTasaDeCompresion() throws IOException {
+    public double getTasaDeCompresion() throws IOException {
         String originalFile = RESOURCESPATH + this.inputfile;
         String compressdFile = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + EXTENSION;
 
         long sizeOriginal = Files.size(Paths.get(originalFile));
         long sizeComprimido = Files.size(Paths.get(compressdFile));
-        return sizeOriginal / sizeComprimido;
+        return (double) sizeOriginal / sizeComprimido;
     }
 
     @Override

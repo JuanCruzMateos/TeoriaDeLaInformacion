@@ -127,13 +127,13 @@ public class ShannonFano extends Fuente implements Compressor {
     }
 
     @Override
-    public long getTasaDeCompresion() throws IOException {
+    public double getTasaDeCompresion() throws IOException {
         String originalFile = RESOURCESPATH + this.inputfile;
         String compressdFile = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + EXTENSION;
 
         long sizeOriginal = Files.size(Paths.get(originalFile));
         long sizeComprimido = Files.size(Paths.get(compressdFile));
-        return sizeOriginal / sizeComprimido;
+        return (double) sizeOriginal / sizeComprimido;
     }
 
     @Override

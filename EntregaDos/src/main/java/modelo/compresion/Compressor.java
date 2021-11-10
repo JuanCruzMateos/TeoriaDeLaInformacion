@@ -15,5 +15,5 @@ public interface Compressor {
 
     void decompress() throws IOException;
 
-    long getTasaDeCompresion() throws IOException;
+    double getTasaDeCompresion() throws IOException;
 }
