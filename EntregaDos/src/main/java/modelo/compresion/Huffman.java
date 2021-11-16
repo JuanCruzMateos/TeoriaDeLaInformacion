@@ -14,6 +14,7 @@ import java.util.TreeMap;
  * @author Juan Cruz Mateos
  */
 public class Huffman extends Fuente implements Compressor {
+    public static final String RESULTSPATH = Fuente.RESULTSPATH + "huffman" + File.separator;
     protected static final String EXTENSION = ".huff";
     protected final TreeMap<String, String> huffcodes = new TreeMap<>();
     protected Nodo root;
@@ -140,7 +141,7 @@ public class Huffman extends Fuente implements Compressor {
     @Override
     public void decompress() throws IOException {
         String filename = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + EXTENSION;
-        Writer writer = new FileWriter(Fuente.RESOURCESPATH + "recoveryHuffman" + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".txt");
+        Writer writer = new FileWriter(Fuente.RESOURCESPATH + "recovery" + File.separator + "recoveryHuffman" + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + ".txt");
         BitInputStream bitInputStream = new BitInputStream();
         Nodo nodo;
         int c;

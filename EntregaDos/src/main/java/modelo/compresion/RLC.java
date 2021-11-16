@@ -9,15 +9,17 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class RLC extends Fuente {
+    public static final String RESULTSPATH = Fuente.RESULTSPATH + "rlc" + File.separator;
+
     public void compressTxt(String filename, boolean generateTxtFile) throws IOException {
         ByteArrayOutputStream encodebytes = new ByteArrayOutputStream();
-        Reader in = new FileReader(Fuente.RESOURCESPATH + filename);
+        Reader in = new FileReader(RESOURCESPATH + filename);
         Writer out = null;
         int ant, act;
         int frec;
 
         if (generateTxtFile) {
-            out = new FileWriter(Fuente.RESULTSPATH + filename.substring(0, filename.lastIndexOf('.')) + "RLC.txt");
+            out = new FileWriter(RESULTSPATH + filename.substring(0, filename.lastIndexOf('.')) + "RLC.txt");
         }
         act = in.read();
         while (act != -1) {
@@ -32,7 +34,7 @@ public class RLC extends Fuente {
                 out.write(Integer.toString(frec));
             }
         }
-        encodebytes.writeTo(new FileOutputStream(Fuente.RESULTSPATH + filename.substring(0, filename.lastIndexOf('.')) + ".rlc"));
+        encodebytes.writeTo(new FileOutputStream(RESULTSPATH + filename.substring(0, filename.lastIndexOf('.')) + ".rlc"));
         in.close();
         if (generateTxtFile)
             out.close();
@@ -55,8 +57,8 @@ public class RLC extends Fuente {
     }
 
     public void decompressTxt(String filename) throws IOException {
-        FileInputStream in = new FileInputStream(Fuente.RESULTSPATH + filename);
-        Writer out = new FileWriter(Fuente.RESOURCESPATH + "recoveryRLC" + filename.substring(0, filename.lastIndexOf('.')) + ".txt");
+        FileInputStream in = new FileInputStream(RESULTSPATH + filename);
+        Writer out = new FileWriter(RESOURCESPATH + "recovery" + File.separator + filename.substring(0, filename.lastIndexOf('.')) + ".txt");
         int car, frec;
 
         car = in.read();
@@ -76,7 +78,7 @@ public class RLC extends Fuente {
     }
 
     public void compressRaw(String imageFileName) throws IOException {
-        Scanner scan = new Scanner(new FileReader(Fuente.RESOURCESPATH + imageFileName));
+        Scanner scan = new Scanner(new FileReader(RESOURCESPATH + imageFileName));
         ByteArrayOutputStream encodebytes = new ByteArrayOutputStream();
         int ant, act;
         int frecuencia;
@@ -92,15 +94,15 @@ public class RLC extends Fuente {
                 this.saveData(encodebytes, ant, frecuencia);
             }
             scan.close();
-            encodebytes.writeTo(new FileOutputStream(Fuente.RESULTSPATH + imageFileName.substring(0, imageFileName.lastIndexOf('.')) + ".rlc"));
+            encodebytes.writeTo(new FileOutputStream(RESULTSPATH + imageFileName.substring(0, imageFileName.lastIndexOf('.')) + ".rlc"));
         } catch (NoSuchElementException e) {
             System.out.println("Empty file");
         }
     }
 
     public void decompressRaw(String compressImageFileName) throws IOException {
-        FileInputStream in = new FileInputStream(Fuente.RESULTSPATH + compressImageFileName);
-        Writer out = new FileWriter(Fuente.RESOURCESPATH + "recoveryRLC" + compressImageFileName.substring(0, compressImageFileName.lastIndexOf('.')) + ".txt");
+        FileInputStream in = new FileInputStream(RESULTSPATH + compressImageFileName);
+        Writer out = new FileWriter(RESOURCESPATH + "recovery" + File.separator + "recoveryRLC" + compressImageFileName.substring(0, compressImageFileName.lastIndexOf('.')) + ".txt");
         int numero, frecuencia;
 
         numero = in.read();
