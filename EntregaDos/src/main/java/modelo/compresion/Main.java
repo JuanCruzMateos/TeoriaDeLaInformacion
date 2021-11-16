@@ -1,8 +1,4 @@
-package main;
-
-import modelo.compresion.Huffman;
-import modelo.compresion.RLC;
-import modelo.compresion.ShannonFano;
+package modelo.compresion;
 
 import java.io.IOException;
 
