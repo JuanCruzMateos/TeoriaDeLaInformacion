@@ -1,0 +1,16 @@
+Entropia:
+H(S) = 0.0 bits
+
+Kraft:
+k = 0.0
+
+Longitud media:
+L = 0.0
+
+Rendimiento:
+n = NaN
+
+Rendundancia:
+n = NaN
+
+Tasa de compresion = 0.17062517062517063

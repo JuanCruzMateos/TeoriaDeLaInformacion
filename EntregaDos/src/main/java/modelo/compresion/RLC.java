@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class RLC extends Fuente {
     public static final String RESULTSPATH = Fuente.RESULTSPATH + "rlc" + File.separator;
+    protected String fileToEncode;
 
     public void compressTxt(String filename, boolean generateTxtFile) throws IOException {
         ByteArrayOutputStream encodebytes = new ByteArrayOutputStream();
@@ -18,6 +19,7 @@ public class RLC extends Fuente {
         int ant, act;
         int frec;
 
+        this.fileToEncode = filename;
         if (generateTxtFile) {
             out = new FileWriter(RESULTSPATH + filename.substring(0, filename.lastIndexOf('.')) + "RLC.txt");
         }
@@ -83,6 +85,7 @@ public class RLC extends Fuente {
         int ant, act;
         int frecuencia;
 
+        this.fileToEncode = imageFileName;
         try {
             act = scan.nextInt();
             while (scan.hasNext()) {
@@ -125,6 +128,22 @@ public class RLC extends Fuente {
         long originalFileSize = Files.size(Paths.get(RESOURCESPATH + original));
         long compressedFileSize = Files.size(Paths.get(RESULTSPATH + compressed));
         return (double) originalFileSize / compressedFileSize;
+    }
+
+    public void compressInfo() throws IOException {
+        PrintWriter out = new PrintWriter(RESULTSPATH + this.fileToEncode.substring(0, this.fileToEncode.lastIndexOf('.')) + "CodeInfo.txt");
+        out.println("Entropia:");
+        out.println("H(S) = " + this.entropia() + " bits\n");
+        out.println("Kraft:");
+        out.println("k = " + this.kraft() + "\n");
+        out.println("Longitud media:");
+        out.println("L = " + this.longitudMedia() + "\n");
+        out.println("Rendimiento:");
+        out.println("n = " + this.rendimiento() + "\n");
+        out.println("Rendundancia:");
+        out.println("n = " + this.redundancia() + "\n");
+        out.println("Tasa de compresion = " + this.getTasaDeCompresion(fileToEncode, fileToEncode.substring(0, fileToEncode.lastIndexOf('.')) + ".rlc"));
+        out.close();
     }
 
     @Override
