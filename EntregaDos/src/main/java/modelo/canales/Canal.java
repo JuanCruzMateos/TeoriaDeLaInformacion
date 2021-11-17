@@ -3,10 +3,13 @@ package modelo.canales;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Equivocación,
@@ -31,7 +34,39 @@ public class Canal {
     }
 
     public static double entropia(double[] prob) {
-        return Arrays.stream(prob).reduce(0, (partialH, p) -> partialH + (p * log2(1.0 / p)));
+        return Arrays.stream(prob).reduce(0, (partialH, p) -> partialH + (-1.0 * p * log2(p)));
+    }
+
+    public void infoCanal(String filename) throws IOException {
+        PrintStream stdout = System.out;
+        String outfile = RESULTSPATH + "infoCanal";
+        Pattern regex = Pattern.compile("\\d+");
+        Matcher matcher = regex.matcher(filename);
+
+        if (matcher.find()) {
+            outfile += matcher.group() + ".txt";
+        }
+
+        System.setOut(new PrintStream(outfile));
+        this.readFile(filename);
+        this.printProbabilidades("Probabiidades de entrada :: P(A)", this.getProbA());
+        this.printMatriz("Matriz del canal :: P(bj/ai)", this.getMatriz());
+        this.calcularProbabilidadesDeSalida();
+        this.printProbabilidades("Probabilidades de salida :: P(B)", this.getProbB());
+        this.calcularProbabilidadesPosteriori();
+        this.printMatriz("Posteriori :: P(ai/bj) ", this.getProbPosteriori());
+        this.calcularProbabilidadesSimultaneas();
+        this.printMatriz("Simultaneas :: P(ai,bj)", this.getProbSucesosSimultaneos());
+        System.out.println("entropia a priori H(A)=" + Canal.FMT.format(this.entropiaPriori()));
+        this.calularEntropiasPosteriori();
+        this.printEntropiasPosteriori();
+        System.out.println("equivocacion H(A/B)=" + Canal.FMT.format(this.equivocacion()));
+        System.out.println("I(A,B) = " + Canal.FMT.format(this.informacionMutua()));
+        System.out.println();
+        System.out.println("entropia a salida H(B)=" + Canal.FMT.format(this.entropiaSalida()));
+        System.out.println("perdida H(B/A) = " + Canal.FMT.format(this.perdida()));
+        System.out.println("I(B,A) = " + Canal.FMT.format(this.entropiaSalida() - this.perdida()));
+        System.setOut(stdout);
     }
 
     public void readFile(String filename) throws IOException {
@@ -54,7 +89,7 @@ public class Canal {
     }
 
     public void calcularProbabilidadesDeSalida() {
-        this.probB = new double[this.matriz[0].length]; // en 0 por defecto
+        this.probB = new double[this.matriz[0].length];
 
         for (int j = 0; j < this.probB.length; j++) {
             for (int i = 0; i < this.matriz.length; i++) {
@@ -86,6 +121,10 @@ public class Canal {
         return entropia(this.probA);
     }
 
+    public double entropiaSalida() {
+        return entropia(this.probB);
+    }
+
     public void calularEntropiasPosteriori() {
         this.entropiasPosteriori = new double[this.matriz[0].length];
         for (int i = 0; i < this.matriz[0].length; i++) {
@@ -98,9 +137,6 @@ public class Canal {
      * >>> Entropia media a posteriori
      * >>> Equivocación de A conrespecto a B a través del canal
      * >>> Ruido
-     * – Mide la información que queda en A después de observar B.
-     * – Pérdida de información sobre A causada por el canal.
-     * – Cantidad de información sobre A que no deja pasar el canal.
      *
      * @return equivocacion
      */
@@ -112,13 +148,22 @@ public class Canal {
         return h;
     }
 
+    /**
+     * H(B / A)
+     *
+     * @return H
+     */
     public double perdida() {
-        return -1.0 * (this.informacionMutua());
+        double h = 0;
+        for (int i = 0; i < this.matriz.length; i++) {
+            h += entropia(this.matriz[i]) * this.probA[i];
+        }
+        return h;
     }
 
     /**
      * I(A,B)= H(A)-H(A/B)
-     * -  Es la cantidad de información sobre A, menos la cantidad de
+     * - Es la cantidad de información sobre A, menos la cantidad de
      * información que todavía hay en A después de observar la salida.
      * – Es la cantidad de información que se obtiene de A gracias al conocimiento de B.
      * – Es la incertidumbre sobre la entrada del canal que se resuelve observando la salida del canal.
@@ -127,7 +172,7 @@ public class Canal {
      * @return informacion mutua
      */
     public double informacionMutua() {
-        return 0;
+        return this.entropiaPriori() - this.equivocacion();
     }
 
     /**
