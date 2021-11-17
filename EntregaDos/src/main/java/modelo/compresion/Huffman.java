@@ -5,8 +5,7 @@ import modelo.fuente.Fuente;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.PriorityQueue;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @author Noelia Echeverria
@@ -51,11 +50,16 @@ public class Huffman extends Fuente implements Compressor {
     }
 
     public String getDetalleCodificacion() {
-        StringBuilder sb = new StringBuilder();
+        List<Map.Entry<String, Integer>> paraOrdenar = new ArrayList<>(this.frec.entrySet());
+        paraOrdenar.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        List<String> clavesOrdenadasPorFrecuencia = new ArrayList<>();
+        paraOrdenar.forEach(entry -> clavesOrdenadasPorFrecuencia.add(entry.getKey()));
 
+        StringBuilder sb = new StringBuilder();
         sb.append(String.format("%-15s%-15s%-20s%-20s%-20s\n", "Simbolo", "Frecuencia", "Probabilidad", "Cant. informacion", "Codigo Huffman"));
         sb.append(new String(new char[85]).replace('\0', '-')).append("\n");
-        for (String palabra : this.prob.keySet()) {
+//        for (String palabra : this.prob.keySet()) {
+        for (String palabra : clavesOrdenadasPorFrecuencia) {
             sb.append(String.format("%-15s%-15d%-20.15f%-20.15f%-20s\n", Fuente.printable(palabra), this.frec.get(palabra), this.prob.get(palabra), this.info.get(palabra), this.huffcodes.get(palabra)));
         }
         sb.append(new String(new char[85]).replace('\0', '-')).append("\n");

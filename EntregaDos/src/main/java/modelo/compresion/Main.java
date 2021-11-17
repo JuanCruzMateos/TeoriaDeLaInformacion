@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        String[] files = {"Argentina.txt", "Hawai.txt"};
+        String[] files = {"Argentina.txt", "Hawai.txt", "imagen.raw"};
         Huffman huffman = new Huffman();
         ShannonFano shannonFano = new ShannonFano();
         RLC rlc = new RLC();
@@ -26,20 +26,20 @@ public class Main {
                 shannonFano.decompress();
                 shannonFano.writeToTxt(file.substring(0, file.lastIndexOf('.')) + "ShannonCodes.txt");
                 shannonFano.clearAll();
-
-                rlc.compressTxt(file, true);
-                rlc.decompressTxt(file.substring(0, file.lastIndexOf('.')) + ".rlc");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         try {
+            for (int i = 0; i < files.length - 1; i++) {
+                rlc.compressTxt(files[i], true);
+                rlc.decompressTxt(files[i].substring(0, files[i].lastIndexOf('.')) + ".rlc");
+            }
             rlc.compressRaw("imagen.raw");
             rlc.decompressRaw("imagen.rlc");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

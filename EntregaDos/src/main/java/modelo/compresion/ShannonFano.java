@@ -5,9 +5,7 @@ import modelo.fuente.Fuente;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.TreeMap;
+import java.util.*;
 
 public class ShannonFano extends Fuente implements Compressor {
     public static final String RESULTSPATH = Fuente.RESULTSPATH + "shannonfano" + File.separator;
@@ -50,11 +48,16 @@ public class ShannonFano extends Fuente implements Compressor {
     }
 
     public String getDetalleCodificacion() {
-        StringBuilder sb = new StringBuilder();
+        List<Map.Entry<String, Integer>> paraOrdenar = new ArrayList<>(this.frec.entrySet());
+        paraOrdenar.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        List<String> clavesOrdenadasPorFrecuencia = new ArrayList<>();
+        paraOrdenar.forEach(entry -> clavesOrdenadasPorFrecuencia.add(entry.getKey()));
 
+        StringBuilder sb = new StringBuilder();
         sb.append(String.format("%-15s%-15s%-20s%-20s%-20s\n", "Simbolo", "Frecuencia", "Probabilidad", "Cant. informacion", "Codigo Shannon"));
         sb.append(new String(new char[85]).replace('\0', '-')).append("\n");
-        for (String palabra : this.prob.keySet()) {
+//        for (String palabra : this.prob.keySet()) {
+        for (String palabra : clavesOrdenadasPorFrecuencia) {
             sb.append(String.format("%-15s%-15d%-20.15f%-20.15f%-20s\n", Fuente.printable(palabra), this.frec.get(palabra), this.prob.get(palabra), this.info.get(palabra), this.shannonCodes.get(palabra)));
         }
         sb.append(new String(new char[85]).replace('\0', '-')).append("\n");

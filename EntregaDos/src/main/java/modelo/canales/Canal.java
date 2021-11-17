@@ -149,6 +149,7 @@ public class Canal {
     }
 
     /**
+     * Perdida
      * H(B / A)
      *
      * @return H

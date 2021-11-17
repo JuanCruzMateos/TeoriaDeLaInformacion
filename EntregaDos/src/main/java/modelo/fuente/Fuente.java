@@ -21,12 +21,14 @@ public abstract class Fuente {
     protected String inputfile;
 
     public static String printable(String simbolo) {
-        if (simbolo.equals("\n"))
-            return "'\\n'";
-        else if (simbolo.equals(" "))
-            return "' '";
-        else
-            return simbolo;
+        String toPrint;
+        switch (simbolo) {
+            case "\n" -> toPrint = "\\n";
+            case "\r" -> toPrint = "\\r";
+            case " " -> toPrint = "' '";
+            default -> toPrint = simbolo;
+        }
+        return toPrint;
     }
 
     public void parseFile(String inputfile) throws IOException {
