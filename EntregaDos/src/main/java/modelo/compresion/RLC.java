@@ -152,6 +152,8 @@ public class RLC extends Fuente {
         out.println("n = " + this.rendimiento() + "\n");
         out.println("Rendundancia:");
         out.println("n = " + this.redundancia() + "\n");
+        out.println("Tamaño archivo original = " + Files.size(Paths.get(RESOURCESPATH + fileToEncode)) + " bytes");
+        out.println("Tamaño archivo comprimido = " + Files.size(Paths.get(RESULTSPATH + fileToEncode.substring(0, fileToEncode.lastIndexOf('.')) + ".rlc")) + " bytes");
         out.println("Tasa de compresion = " + this.getTasaDeCompresion(fileToEncode, fileToEncode.substring(0, fileToEncode.lastIndexOf('.')) + ".rlc"));
         out.close();
     }
@@ -168,6 +170,8 @@ public class RLC extends Fuente {
         out.println("n = " + this.rendimientoRaw() + "\n");
         out.println("Rendundancia:");
         out.println("n = " + this.redundanciaRaw() + "\n");
+        out.println("Tamaño archivo original = " + Files.size(Paths.get(RESOURCESPATH + fileToEncode)) + " bytes");
+        out.println("Tamaño archivo comprimido = " + Files.size(Paths.get(RESULTSPATH + fileToEncode.substring(0, fileToEncode.lastIndexOf('.')) + ".rlc")) + " bytes");
         out.println("Tasa de compresion = " + this.getTasaDeCompresion(fileToEncode, fileToEncode.substring(0, fileToEncode.lastIndexOf('.')) + ".rlc"));
         out.close();
     }

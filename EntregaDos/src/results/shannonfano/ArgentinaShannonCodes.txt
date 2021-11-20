@@ -79,4 +79,6 @@ n = 96.03334034658087
 Rendundancia:
 n = 3.9666596534191285
 
+Tamaño archivo original = 2500 bytes
+Tamaño archivo comprimido = 1446 bytes
 Tasa de compresion = 1.7289073305670817

@@ -67,6 +67,9 @@ public class ShannonFano extends Fuente implements Compressor {
 
     @Override
     public void writeToTxt(String filename) throws IOException {
+        String originalFile = RESOURCESPATH + this.inputfile;
+        String compressdFile = RESULTSPATH + this.inputfile.substring(0, this.inputfile.lastIndexOf('.')) + EXTENSION;
+
         PrintStream stdout = System.out;
         System.setOut(new PrintStream(RESULTSPATH + filename));
         System.out.println(this.getDetalleCodificacion());
@@ -80,6 +83,8 @@ public class ShannonFano extends Fuente implements Compressor {
         System.out.println("n = " + this.rendimiento() + "\n");
         System.out.println("Rendundancia:");
         System.out.println("n = " + this.redundancia() + "\n");
+        System.out.println("Tamaño archivo original = " + Files.size(Paths.get(originalFile)) + " bytes");
+        System.out.println("Tamaño archivo comprimido = " + Files.size(Paths.get(compressdFile)) + " bytes");
         System.out.println("Tasa de compresion = " + this.getTasaDeCompresion());
         System.setOut(stdout);
     }
