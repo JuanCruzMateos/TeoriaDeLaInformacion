@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class Huffman extends Fuente implements Compressor {
     public static final String RESULTSPATH = Fuente.RESULTSPATH + "huffman" + File.separator;
-    protected static final String EXTENSION = ".huff";
+    protected static final String EXTENSION = ".huf";
     protected final TreeMap<String, String> huffcodes = new TreeMap<>();
     protected Nodo root;
 
