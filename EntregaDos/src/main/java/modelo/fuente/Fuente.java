@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Arrays;
 import java.util.TreeMap;
 
 /**
@@ -29,6 +30,14 @@ public abstract class Fuente {
             default -> toPrint = simbolo;
         }
         return toPrint;
+    }
+
+    public static double log2(double number) {
+        return number == 0 ? 0 : Math.log(number) / Math.log(2);
+    }
+
+    public static double entropia(double[] prob) {
+        return Arrays.stream(prob).reduce(0, (partialH, p) -> partialH + (-1.0 * p * log2(p)));
     }
 
     public void parseFile(String inputfile) throws IOException {
@@ -104,10 +113,6 @@ public abstract class Fuente {
         return h;
     }
 
-    public abstract double kraft();
-
-    public abstract double longitudMedia();
-
 //    public double kraft() {
 //        double suma = 0;
 //        for (String key : this.frec.keySet()) {
@@ -123,6 +128,10 @@ public abstract class Fuente {
 //        }
 //        return longitud;
 //    }
+
+    public abstract double kraft();
+
+    public abstract double longitudMedia();
 
     public double rendimiento() {
         return this.entropia() / this.longitudMedia() * 100.0;

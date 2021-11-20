@@ -1,16 +1,16 @@
 Entropia:
-H(S) = 0.0 bits
+H(S) = 1.0719570043010789 bits
 
 Kraft:
-k = 0.0
+k = 2.0954757928848267E-9
 
 Longitud media:
-L = 0.0
+L = 32.0 bits
 
 Rendimiento:
-n = NaN
+n = 3.3498656384408716
 
 Rendundancia:
-n = NaN
+n = 96.65013436155913
 
-Tasa de compresion = 12.141410398913179
+Tasa de compresion = 18.212115598369767

@@ -35,11 +35,11 @@ public class Main {
             for (int i = 0; i < files.length - 1; i++) {
                 rlc.compressTxt(files[i], true);
                 rlc.decompressTxt(files[i].substring(0, files[i].lastIndexOf('.')) + ".rlc");
-                rlc.compressInfo();
+                rlc.compressInfoTxt();
             }
             rlc.compressRaw("imagen.raw");
             rlc.decompressRaw("imagen.rlc");
-            rlc.compressInfo();
+            rlc.compressInfoRaw();
         } catch (IOException e) {
             e.printStackTrace();
         }

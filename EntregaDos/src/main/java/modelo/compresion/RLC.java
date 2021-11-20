@@ -5,11 +5,14 @@ import modelo.fuente.Fuente;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class RLC extends Fuente {
     public static final String RESULTSPATH = Fuente.RESULTSPATH + "rlc" + File.separator;
+    protected HashMap<Integer, Integer> rawFrecuencias = new HashMap<>();
+    protected HashMap<Integer, Double> rawProbabilidades = new HashMap<>();
     protected String fileToEncode;
 
     public void compressTxt(String filename, boolean generateTxtFile) throws IOException {
@@ -19,6 +22,7 @@ public class RLC extends Fuente {
         int ant, act;
         int frec;
 
+        super.parseFile(filename);
         this.fileToEncode = filename;
         if (generateTxtFile) {
             out = new FileWriter(RESULTSPATH + filename.substring(0, filename.lastIndexOf('.')) + "RLC.txt");
@@ -52,8 +56,8 @@ public class RLC extends Fuente {
     private void saveData(ByteArrayOutputStream encodebytes, int character, int frec) {
         encodebytes.write((byte) ((character >> 8) & 0xff));
         encodebytes.write((byte) (character & 0xff));
-        encodebytes.write((byte) ((frec >> 24) & 0xff));
-        encodebytes.write((byte) ((frec >> 16) & 0xff));
+//        encodebytes.write((byte) ((frec >> 24) & 0xff));
+//        encodebytes.write((byte) ((frec >> 16) & 0xff));
         encodebytes.write((byte) ((frec >> 8) & 0xff));
         encodebytes.write((byte) (frec & 0xff));
     }
@@ -68,8 +72,8 @@ public class RLC extends Fuente {
             car = car << 8 | (in.read() & 0xff);
             frec = in.read() & 0xff;
             frec = frec << 8 | (in.read() & 0xff);
-            frec = frec << 8 | (in.read() & 0xff); // 16
-            frec = frec << 8 | (in.read() & 0xff); // 24
+//            frec = frec << 8 | (in.read() & 0xff); // 16
+//            frec = frec << 8 | (in.read() & 0xff); // 24
             for (int i = 0; i < frec; i++) {
                 out.write((char) car);
             }
@@ -90,14 +94,20 @@ public class RLC extends Fuente {
             act = scan.nextInt();
             while (scan.hasNext()) {
                 ant = act;
+                this.rawFrecuencias.put(act, this.rawFrecuencias.getOrDefault(act, 0) + 1);
                 frecuencia = 1;
                 while (scan.hasNext() && (act = scan.nextInt()) == ant) {
+                    this.rawFrecuencias.put(act, this.rawFrecuencias.getOrDefault(act, 0) + 1);
                     frecuencia += 1;
                 }
                 this.saveData(encodebytes, ant, frecuencia);
             }
             scan.close();
             encodebytes.writeTo(new FileOutputStream(RESULTSPATH + imageFileName.substring(0, imageFileName.lastIndexOf('.')) + ".rlc"));
+//            this.rawFrecuencias.forEach((k, v) -> System.out.println(k + ": " + v));
+//            System.out.println(this.rawFrecuencias.values().stream().mapToInt(Integer::intValue).sum());
+            int total = this.rawFrecuencias.values().stream().mapToInt(Integer::intValue).sum();
+            this.rawFrecuencias.forEach((k, v) -> this.rawProbabilidades.put(k, (double) v / total));
         } catch (NoSuchElementException e) {
             System.out.println("Empty file");
         }
@@ -113,8 +123,8 @@ public class RLC extends Fuente {
             numero = numero << 8 | (in.read() & 0xff);
             frecuencia = in.read() & 0xff;
             frecuencia = frecuencia << 8 | in.read() & 0xff;
-            frecuencia = frecuencia << 8 | in.read() & 0xff;
-            frecuencia = frecuencia << 8 | in.read() & 0xff;
+//            frecuencia = frecuencia << 8 | in.read() & 0xff;
+//            frecuencia = frecuencia << 8 | in.read() & 0xff;
             for (int i = 0; i < frecuencia; i++) {
                 out.write(numero + "\r\n");
             }
@@ -130,14 +140,14 @@ public class RLC extends Fuente {
         return (double) originalFileSize / compressedFileSize;
     }
 
-    public void compressInfo() throws IOException {
+    public void compressInfoTxt() throws IOException {
         PrintWriter out = new PrintWriter(RESULTSPATH + this.fileToEncode.substring(0, this.fileToEncode.lastIndexOf('.')) + "CodeInfo.txt");
         out.println("Entropia:");
         out.println("H(S) = " + this.entropia() + " bits\n");
         out.println("Kraft:");
         out.println("k = " + this.kraft() + "\n");
         out.println("Longitud media:");
-        out.println("L = " + this.longitudMedia() + "\n");
+        out.println("L = " + this.longitudMedia() + " bits\n");
         out.println("Rendimiento:");
         out.println("n = " + this.rendimiento() + "\n");
         out.println("Rendundancia:");
@@ -146,13 +156,53 @@ public class RLC extends Fuente {
         out.close();
     }
 
+    public void compressInfoRaw() throws IOException {
+        PrintWriter out = new PrintWriter(RESULTSPATH + this.fileToEncode.substring(0, this.fileToEncode.lastIndexOf('.')) + "CodeInfo.txt");
+        out.println("Entropia:");
+        out.println("H(S) = " + this.entropiaRaw() + " bits\n");
+        out.println("Kraft:");
+        out.println("k = " + this.kraftRaw() + "\n");
+        out.println("Longitud media:");
+        out.println("L = " + this.longitudMedia() + " bits\n");
+        out.println("Rendimiento:");
+        out.println("n = " + this.rendimientoRaw() + "\n");
+        out.println("Rendundancia:");
+        out.println("n = " + this.redundanciaRaw() + "\n");
+        out.println("Tasa de compresion = " + this.getTasaDeCompresion(fileToEncode, fileToEncode.substring(0, fileToEncode.lastIndexOf('.')) + ".rlc"));
+        out.close();
+    }
+
+    public double entropiaRaw() {
+        return Fuente.entropia(this.rawProbabilidades.values().stream().mapToDouble(Double::doubleValue).toArray());
+    }
+
+    public double rendimientoRaw() {
+        return this.entropiaRaw() / this.longitudMedia() * 100.0;
+    }
+
+    public double redundanciaRaw() {
+        return 100.0 - this.rendimientoRaw();
+    }
+
+    public double kraftRaw() {
+        double suma = 0;
+        for (int i = 0; i < this.rawFrecuencias.size(); i++) {
+            suma += Math.pow(2.0, -1.0 * this.longitudMedia());
+        }
+        return suma;
+    }
+
     @Override
     public double kraft() {
-        return 0;
+        double suma = 0;
+        for (int i = 0; i < this.frec.size(); i++) {
+            suma += Math.pow(2.0, -1.0 * this.longitudMedia());
+        }
+        return suma;
     }
 
     @Override
     public double longitudMedia() {
-        return 0;
+        return 32.0;
     }
 }
