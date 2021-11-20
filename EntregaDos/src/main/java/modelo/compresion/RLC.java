@@ -64,7 +64,7 @@ public class RLC extends Fuente {
 
     public void decompressTxt(String filename) throws IOException {
         FileInputStream in = new FileInputStream(RESULTSPATH + filename);
-        Writer out = new FileWriter(RESOURCESPATH + "recovery" + File.separator + filename.substring(0, filename.lastIndexOf('.')) + ".txt");
+        Writer out = new FileWriter(RESOURCESPATH + "recovery" + File.separator + "recoveryRLC" + filename.substring(0, filename.lastIndexOf('.')) + ".txt");
         int car, frec;
 
         car = in.read();
