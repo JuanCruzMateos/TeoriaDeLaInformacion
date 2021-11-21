@@ -2,7 +2,7 @@
 .idea/
 
 # Eclipse
-.project/
+.project
 .settings/
 
 **/target/
