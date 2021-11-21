@@ -27,7 +27,7 @@ Rendimiento:
 n = 91.3899368234534
 
 Rendundancia:
-n = 8.610063176546603
+1 - n = 8.610063176546603
 
 Tamaño archivo original = 196618 bytes
 Tamaño archivo comprimido = 52235 bytes

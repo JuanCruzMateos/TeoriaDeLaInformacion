@@ -82,7 +82,7 @@ public class ShannonFano extends Fuente implements Compressor {
         System.out.println("Rendimiento:");
         System.out.println("n = " + this.rendimiento() + "\n");
         System.out.println("Rendundancia:");
-        System.out.println("n = " + this.redundancia() + "\n");
+        System.out.println("1 - n = " + this.redundancia() + "\n");
         System.out.println("Tamaño archivo original = " + Files.size(Paths.get(originalFile)) + " bytes");
         System.out.println("Tamaño archivo comprimido = " + Files.size(Paths.get(compressdFile)) + " bytes");
         System.out.println("Tasa de compresion = " + this.getTasaDeCompresion());
