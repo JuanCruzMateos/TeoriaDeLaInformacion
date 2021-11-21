@@ -1,4 +1,0 @@
--rw-rw-r-- 1 juan juan 1.5K Nov 16 09:44 Argentina.fan
--rw-rw-r-- 1 juan juan 1.5K Nov 16 09:44 Hawai.fan
--rw-rw-r-- 1 juan juan  52K Nov 10 15:35 imagen.fan
-

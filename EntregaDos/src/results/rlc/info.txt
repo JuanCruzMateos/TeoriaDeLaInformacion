@@ -1,3 +1,0 @@
--rw-rw-r-- 1 juan juan  15K Nov 16 09:44 Argentina.rlc
--rw-rw-r-- 1 juan juan  17K Nov 16 09:44 Hawai.rlc
--rw-rw-r-- 1 juan juan  16K Nov 16 09:44 imagen.rlc
